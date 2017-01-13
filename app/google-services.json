@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "784534774466",
+    "firebase_url": "https://wear-your-opinion.firebaseio.com",
+    "project_id": "wear-your-opinion",
+    "storage_bucket": "wear-your-opinion.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:784534774466:android:632a84736fce1246",
+        "android_client_info": {
+          "package_name": "as.knowyouropinion"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "784534774466-hujjn3m11meleq1m4i2mfn83a76h1qt3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "as.knowyouropinion",
+            "certificate_hash": "C34E54E6303183576DFBB1B59CD02BD6AE2C9397"
+          }
+        },
+        {
+          "client_id": "784534774466-jcn3lkdgrenjosk5irs0br2shujm2u5b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8M3PwyxxvutXPmQfnEmxJCsEcrrRvBtk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "784534774466-jcn3lkdgrenjosk5irs0br2shujm2u5b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
