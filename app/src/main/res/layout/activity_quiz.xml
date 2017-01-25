@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="?actionBarSize">
+
+        <include
+            android:id="@+id/toolbar"
+            layout="@layout/toolbar"/>
+    </android.support.design.widget.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:background="#FFFFFF">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="@dimen/activity_horizontal_margin"
+                android:layout_margin="@dimen/activity_horizontal_margin">
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="@dimen/quesion_text_size"
+                    android:textColor="#000000"
+                    android:text="What tastes better with pizza?"/>
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/activity_horizontal_margin">
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/option_text_size"
+                        android:textStyle="bold"
+                        android:textColor="@color/common_google_signin_btn_text_light"
+                        android:layout_marginTop="@dimen/radio_margin"
+                        android:text="Soft Drink"/>
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/option_text_size"
+                        android:textStyle="bold"
+                        android:textColor="@color/common_google_signin_btn_text_light"
+                        android:layout_marginTop="@dimen/radio_margin"
+                        android:text="Ice Tea"/>
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/option_text_size"
+                        android:textStyle="bold"
+                        android:textColor="@color/common_google_signin_btn_text_light"
+                        android:layout_marginTop="@dimen/radio_margin"
+                        android:text="Coffee"/>
+
+                    <android.support.v7.widget.AppCompatRadioButton
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/option_text_size"
+                        android:textStyle="bold"
+                        android:textColor="@color/common_google_signin_btn_text_light"
+                        android:layout_marginTop="@dimen/radio_margin"
+                        android:text="Water"/>
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </ScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_action_check"
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
+</FrameLayout>

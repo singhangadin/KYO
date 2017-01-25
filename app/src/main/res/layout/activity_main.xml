@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v4.widget.DrawerLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/DrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -22,12 +21,18 @@
         </FrameLayout>
     </RelativeLayout>
 
-    <include
-        android:id="@+id/recyclerView"
-        layout="@layout/widget_drawerlist"
-        android:layout_width="272dp"
+    <FrameLayout
+        android:layout_width="@dimen/navigation_drawer_width"
         android:layout_height="match_parent"
-        android:layout_marginRight="56dp"
-        android:layout_marginEnd="56dp"
-        android:layout_gravity="start"/>
+        android:background="#111111"
+        android:layout_gravity="start">
+
+        <include
+            android:id="@+id/recyclerView"
+            layout="@layout/widget_recyclerview"
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="match_parent"
+            android:layout_marginRight="56dp"
+            android:layout_marginEnd="56dp"/>
+    </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

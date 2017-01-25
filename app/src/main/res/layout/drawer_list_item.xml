@@ -1,23 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_row"
     android:layout_height="48dp"
     android:layout_width="match_parent"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:background="#222222">
 
      <ImageView
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:id="@+id/rowIcon"
-         android:scaleType="fitCenter"
+         android:scaleType="centerInside"
          android:layout_marginTop="8dp"
          android:layout_marginBottom="8dp"
          android:layout_marginLeft="16dp"
          android:layout_marginStart="16dp"
          android:layout_marginEnd="16dp"
          android:layout_marginRight="16dp"
-         android:src="@mipmap/ic_launcher"/>
+         tools:src="@mipmap/ic_launcher"
+         android:tint="#FFFFFF"/>
 
     <RelativeLayout
         android:layout_height="match_parent"
@@ -34,10 +37,11 @@
             android:layout_height="wrap_content"
             android:textSize="14sp"
             android:text=""
-            android:singleLine="true"
+            android:maxLines="1"
             android:layout_centerVertical="true"
-            android:textColor="#000000"
-            android:id="@+id/rowText" />
+            android:textColor="#DDDDDD"
+            android:id="@+id/rowText"
+            tools:text="@string/app_name"/>
 
     </RelativeLayout>
 </LinearLayout>

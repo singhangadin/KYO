@@ -2,4 +2,19 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+
+    <dimen name="navigation_drawer_width">272dp</dimen>
+    <dimen name="widget_padding">8dp</dimen>
+    <dimen name="widget_min_height">40dp</dimen>
+    <dimen name="widget_min_width">200dp</dimen>
+    <dimen name="widget_min_resize_height">100dp</dimen>
+    <dimen name="widget_min_resize_width">40dp</dimen>
+    <dimen name="widget_margin">1dp</dimen>
+    <dimen name="quesion_text_size">24sp</dimen>
+    <dimen name="option_text_size">18sp</dimen>
+    <dimen name="radio_margin">16dp</dimen>
+    <dimen name="question_icon_size">56dp</dimen>
+    <dimen name="list_item_margin">16dp</dimen>
+    <dimen name="main_ques_text_size">16sp</dimen>
+    <dimen name="main_ans_text_size">12sp</dimen>
 </resources>

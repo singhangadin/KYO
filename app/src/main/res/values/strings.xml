@@ -1,3 +1,6 @@
 <resources>
+    <string name="openDrawer">Drawer Open</string>
+    <string name="closeDrawer">Drawer Close</string>
     <string name="app_name">Know Your Opinion</string>
+    <string name="content_authority">as.knowyouropinion</string>
 </resources>

@@ -2,7 +2,9 @@ package as.knowyouropinion;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -118,9 +120,16 @@ public class SignInActivity extends AppCompatActivity implements
         if (result.isSuccess()) {
             GoogleSignInAccount acct = result.getSignInAccount();
             if (acct != null) {
-                Log.e("TAG", "Sign In Successfull:" + acct.getEmail());
+                SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor=preferences.edit();
+                editor.putString("NAME",acct.getDisplayName());
+                editor.putString("EMAIL",acct.getEmail());
+                editor.putString("PHOTO","https://lh3.googleusercontent.com/"+acct.getPhotoUrl().getPath());
+                editor.apply();
             }
             firebaseAuthWithGoogle(acct);
+            startActivity(new Intent(SignInActivity.this,MainActivity.class));
+            finish();
         }
         else {
             Log.e("TAG", "Sign In Failed");

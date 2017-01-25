@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="activity_vertical_margin">64dp</dimen>
+    <dimen name="quesion_text_size">48sp</dimen>
+    <dimen name="option_text_size">36sp</dimen>
+    <dimen name="radio_margin">32dp</dimen>
+    <dimen name="question_icon_size">72dp</dimen>
+    <dimen name="list_item_margin">16dp</dimen>
+    <dimen name="main_ques_text_size">20sp</dimen>
+    <dimen name="main_ans_text_size">16sp</dimen>
+</resources>
