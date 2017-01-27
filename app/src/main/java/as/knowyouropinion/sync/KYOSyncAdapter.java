@@ -74,11 +74,17 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                context.getContentResolver().delete(
+                    QuestionContract.QuestionEntry.CONTENT_URI,
+                    null,
+                    null
+                );
                 ArrayList<String> ans = (ArrayList<String>) dataSnapshot.getValue();
                 for(int i=0; i<ans.size(); i++)
                 {   String str = ans.get(i);
                     if(str!=null&&!str.equals("null"))
-                    {   Temp(database,i,str);
+                    {   //Temp(database,i,str);
+                        new FbDBInsertThread(context, i, str, database).start();
                     }
                 }
             }
@@ -88,22 +94,9 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
 
             }
         });
-
-//        ContentValues questionValues = new ContentValues();
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_QNO, 1);
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_QUES, "ABCD");
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS1, "A");
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS2, "B");
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS3, "C");
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS4, "D");
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS1V, 23);
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS2V, 45);
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS3V, 12);
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS4V, 43);
-//        questionValues.put(QuestionContract.QuestionEntry.COLUMN_CHOICE, 1);
     }
 
-    synchronized private void Temp(FirebaseDatabase database, int i,String answer)
+    synchronized private void Temp(FirebaseDatabase database, final int i, String answer)
     {   if(!syncStart)
         {   context.getContentResolver().delete(
                 QuestionContract.QuestionEntry.CONTENT_URI,
@@ -126,11 +119,12 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String question = (String) dataSnapshot.getValue();
-                Log.e("SYNC","Questions:"+question);
+//                Log.e("SYNC","Questions:"+question);
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_QUES, question);
-                ques[0] =true;
+                ques[0] = true;
                 if(opt[0]&&ans[0])
-                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                {   Log.e("SYNC","Inserted: "+i+" -"+question+" ");
+                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                 }
             }
 
@@ -148,9 +142,10 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS2, HM.get("b"));
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS3, HM.get("c"));
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS4, HM.get("d"));
-                opt[0] =true;
+                opt[0] = true;
                 if(ques[0]&&ans[0])
-                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                {   Log.e("SYNC","Inserted: "+i);
+                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                 }
             }
 
@@ -169,9 +164,10 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS3V, HM.get("c"));
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS4V, HM.get("d"));
 
-                ans[0]=true;
+                ans[0] = true;
                 if(ques[0]&&opt[0])
-                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                {   Log.e("SYNC","Inserted: "+i);
+                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                 }
             }
 
