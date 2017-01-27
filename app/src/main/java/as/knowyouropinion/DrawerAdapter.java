@@ -16,7 +16,7 @@ import com.bumptech.glide.Glide;
  * </p>
  */
 
-class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder>
+public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder>
 {   private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
@@ -28,7 +28,7 @@ class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder>
     private String email;
     private Context context;
 
-    DrawerAdapter(String Titles[], int Icons[], String Name, String Email, String Profile,Context context)
+    public DrawerAdapter(String Titles[], int Icons[], String Name, String Email, String Profile,Context context)
     {   this.mNavTitles = Titles;
         this.mIcons = Icons;
         this.name = Name;

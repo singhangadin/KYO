@@ -3,4 +3,5 @@
     <string name="closeDrawer">Drawer Close</string>
     <string name="app_name">Know Your Opinion</string>
     <string name="content_authority">as.knowyouropinion</string>
+    <string name="sync_account_type">knowyouropinion.as</string>
 </resources>

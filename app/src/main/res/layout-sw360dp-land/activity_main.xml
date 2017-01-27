@@ -14,15 +14,21 @@
         android:layout_width="match_parent"
         android:orientation="horizontal">
 
-        <include
-            android:id="@+id/recyclerView"
-            layout="@layout/widget_recyclerview"/>
+        <FrameLayout
+            android:layout_width="@dimen/navigation_drawer_width"
+            android:layout_height="match_parent"
+            android:background="#111111">
+
+            <include
+                android:id="@+id/recyclerView"
+                layout="@layout/widget_recyclerview"/>
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/frame_container"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#EEEEEE"/>
+            android:background="#FFFFFF"/>
     </LinearLayout>
 </LinearLayout>

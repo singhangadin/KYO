@@ -12,13 +12,20 @@
     <LinearLayout
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
-        <include
-            android:id="@+id/recyclerView"
+        <FrameLayout
+            android:layout_width="@dimen/navigation_drawer_width"
             android:layout_height="match_parent"
-            layout="@layout/widget_recyclerview"
-            android:layout_width="@dimen/navigation_drawer_width" />
+            android:background="#111111">
+
+            <include
+                android:id="@+id/recyclerView"
+                android:layout_height="match_parent"
+                layout="@layout/widget_recyclerview"
+                android:layout_width="@dimen/navigation_drawer_width" />
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/frame_container"
