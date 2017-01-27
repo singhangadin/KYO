@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
-import as.knowyouropinion.data.model.HomeQuestionData;
+import as.knowyouropinion.model.HomeQuestionData;
 import as.knowyouropinion.utils.OnRecyclerClickListener;
 import as.knowyouropinion.utils.RecyclerTouchHelper;
 
@@ -177,6 +177,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 //            data.setQuesNo(i);
 //            homeQuestionData.add(data);
 //        }
+
         RecyclerView homeList=(RecyclerView)view.findViewById(R.id.homeList);
         homeList.setLayoutManager(new LinearLayoutManager(context));
         homeList.setAdapter(adapter);
@@ -194,7 +195,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 
     @Override
     public boolean onClick(View child, int position) {
-        Intent intent=new Intent(context,QuizActivity.class);
+        Intent intent = new Intent(context,QuizActivity.class);
         intent.putExtra("qno",homeQuestionData.get(position).getQuesNo());
         startActivity(intent);
         return false;

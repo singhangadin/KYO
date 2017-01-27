@@ -36,6 +36,9 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
 
     private SQLiteDatabase db;
 
+    public static final String ACTION_DATA_UPDATED = "as.knowyouropinion.DATA_UPDATED";
+
+
     // 60 seconds (1 minute) * 180 = 3 hours
     private static final int SYNC_INTERVAL = 60 * 60 * 3;
     private static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
@@ -231,4 +234,6 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
     }
+
+
 }

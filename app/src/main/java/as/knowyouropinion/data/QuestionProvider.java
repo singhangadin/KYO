@@ -22,10 +22,11 @@ public class QuestionProvider extends ContentProvider {
 
     static final int QUESTION_WITH_QNO = 100;
     static final int QUESTION = 101;
-    private static final SQLiteQueryBuilder sWeatherByLocationSettingQueryBuilder;
+    private static final SQLiteQueryBuilder sQuestionQueryBuilder;
 
     static{
-        sWeatherByLocationSettingQueryBuilder = new SQLiteQueryBuilder();
+        sQuestionQueryBuilder = new SQLiteQueryBuilder();
+        sQuestionQueryBuilder.setTables(QuestionContract.QuestionEntry.TABLE_NAME);
     }
 
     static UriMatcher buildUriMatcher() {
@@ -195,14 +196,12 @@ public class QuestionProvider extends ContentProvider {
         }
     }
 
-    private Cursor getQuestionFromQuestionNo(
-            Uri uri, String[] projection, String sortOrder) {
+    private Cursor getQuestionFromQuestionNo(Uri uri, String[] projection, String sortOrder) {
         int ques_no = QuestionContract.QuestionEntry.getQuestionNoFromURI(uri);
-
-        return sWeatherByLocationSettingQueryBuilder.query(mOpenHelper.getReadableDatabase(),
+        return sQuestionQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
                 QuestionContract.QuestionEntry.TABLE_NAME+"."+
-                QuestionContract.QuestionEntry.COLUMN_QNO+"=?",
+                QuestionContract.QuestionEntry.COLUMN_QNO+" = ? ",
                 new String[]{Integer.toString(ques_no)},
                 null,
                 null,

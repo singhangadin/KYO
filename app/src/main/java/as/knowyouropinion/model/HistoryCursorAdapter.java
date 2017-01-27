@@ -1,4 +1,4 @@
-package as.knowyouropinion;
+package as.knowyouropinion.model;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import as.knowyouropinion.R;
 import as.knowyouropinion.data.QuestionContract;
 import de.hdodenhof.circleimageview.CircleImageView;
 

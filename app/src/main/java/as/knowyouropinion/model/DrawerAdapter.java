@@ -1,4 +1,4 @@
-package as.knowyouropinion;
+package as.knowyouropinion.model;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+
+import as.knowyouropinion.R;
 
 /**<p>
  * Created by Angad on 11/01/2017.

@@ -18,6 +18,7 @@ import as.knowyouropinion.data.QuestionContract;
 import as.knowyouropinion.data.QuestionDBHelper;
 import as.knowyouropinion.data.QuestionProvider;
 
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_QNO;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
@@ -28,7 +29,7 @@ import static junit.framework.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class ContentProvidersTest {
-    private Context mContext=InstrumentationRegistry.getTargetContext();
+    private Context mContext = InstrumentationRegistry.getTargetContext();
 
     @Before
     public void performCleanUp()
@@ -50,7 +51,7 @@ public class ContentProvidersTest {
                 null
         );
         assert cursor!=null;
-        assertEquals("Error: Records not deleted from Weather table during delete", 0, cursor.getCount());
+        assertEquals("Error: Records not deleted from Question table during delete", 0, cursor.getCount());
         cursor.close();
     }
 
@@ -72,12 +73,12 @@ public class ContentProvidersTest {
         ComponentName componentName = new ComponentName(mContext.getPackageName(), QuestionProvider.class.getName());
         try {
             ProviderInfo providerInfo = pm.getProviderInfo(componentName, 0);
-            assertEquals(   "Error: WeatherProvider registered with authority: " + providerInfo.authority +
+            assertEquals(   "Error: QuestionProvider registered with authority: " + providerInfo.authority +
                             " instead of authority: " + QuestionContract.CONTENT_AUTHORITY,
                             providerInfo.authority, QuestionContract.CONTENT_AUTHORITY);
         }
         catch (PackageManager.NameNotFoundException e) {
-            assertTrue("Error: WeatherProvider not registered at " + mContext.getPackageName(), false);
+            assertTrue("Error: QuestionProvider not registered at " + mContext.getPackageName(), false);
         }
     }
 
@@ -100,7 +101,7 @@ public class ContentProvidersTest {
         ContentValues questionValues = TestUtilities.createQuestionValues(0);
 
         long questionRowId = db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
-        assertTrue("Unable to Insert WeatherEntry into the Database", questionRowId != -1);
+        assertTrue("Unable to Insert QuestionEntry into the Database", questionRowId != -1);
 
         db.close();
 
@@ -111,7 +112,7 @@ public class ContentProvidersTest {
                 null,
                 null
         );
-        TestUtilities.validateCursor("testBasicWeatherQuery", questionCursor, questionValues);
+        TestUtilities.validateCursor("Test Basic Question Query", questionCursor, questionValues);
     }
 
     @Test
@@ -121,7 +122,7 @@ public class ContentProvidersTest {
         ContentValues questionValues = TestUtilities.createQuestionValues(0);
 
         long questionRowId = db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
-        assertTrue("Unable to Insert WeatherEntry into the Database", questionRowId != -1);
+        assertTrue("Unable to Insert QuestionEntry into the Database", questionRowId != -1);
 
         db.close();
         ContentValues question1Values = TestUtilities.createRandomValues();
@@ -139,7 +140,7 @@ public class ContentProvidersTest {
                 null,
                 null
         );
-        TestUtilities.validateCursor("testBasicWeatherQuery", questionCursor, question1Values);
+        TestUtilities.validateCursor("Test Basic Question Query", questionCursor, question1Values);
     }
 
     @Test
@@ -167,7 +168,28 @@ public class ContentProvidersTest {
                 null
         );
         assert cursor!=null;
-        assertEquals("Error: Records not deleted from Weather table during delete", 2, cursor.getCount());
+        assertEquals("Error: Records not deleted from Question table during delete", 2, cursor.getCount());
         cursor.close();
+    }
+
+    @Test
+    public void checkDataFromQno()
+    {   QuestionDBHelper dbHelper = new QuestionDBHelper(mContext);
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        ContentValues questionValues1 = TestUtilities.createQuestionValues(1);
+        db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues1);
+        Cursor cursor = mContext.getContentResolver().query(
+            QuestionContract.QuestionEntry.buildQuestionNo(Integer.toString(1)),
+            new String[]{COLUMN_QNO},
+            null,
+            null,
+            null);
+
+        assertTrue("Unable to Query QuestionEntry into the Database", cursor.getCount() !=0);
+
+        if (cursor != null) {
+            cursor.close();
+        }
     }
 }

@@ -30,6 +30,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
+import as.knowyouropinion.model.DrawerAdapter;
 import as.knowyouropinion.sync.KYOSyncAdapter;
 import as.knowyouropinion.utils.OnRecyclerClickListener;
 import as.knowyouropinion.utils.RecyclerTouchHelper;

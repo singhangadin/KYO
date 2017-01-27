@@ -1,4 +1,4 @@
-package as.knowyouropinion.data.model;
+package as.knowyouropinion.model;
 
 /**<p>
  * Created by localhost on 25/1/17.

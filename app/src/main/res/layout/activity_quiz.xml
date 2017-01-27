@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -35,12 +36,13 @@
                 android:layout_margin="@dimen/activity_horizontal_margin">
 
                 <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/question"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:textSize="@dimen/quesion_text_size"
                     android:textColor="#000000"
-                    android:text="What tastes better with pizza?"
+                    tool:text="What tastes better with pizza?"
                     android:layout_marginBottom="@dimen/activity_horizontal_margin"/>
 
                 <View
@@ -62,7 +64,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/common_google_signin_btn_text_light"
                         android:layout_marginTop="@dimen/radio_margin"
-                        android:text="Soft Drink"/>
+                        tool:text="Soft Drink"/>
 
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/B"
@@ -72,7 +74,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/common_google_signin_btn_text_light"
                         android:layout_marginTop="@dimen/radio_margin"
-                        android:text="Ice Tea"/>
+                        tool:text="Ice Tea"/>
 
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/C"
@@ -82,7 +84,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/common_google_signin_btn_text_light"
                         android:layout_marginTop="@dimen/radio_margin"
-                        android:text="Coffee"/>
+                        tool:text="Coffee"/>
 
                     <android.support.v7.widget.AppCompatRadioButton
                         android:id="@+id/D"
@@ -92,7 +94,7 @@
                         android:textStyle="bold"
                         android:textColor="@color/common_google_signin_btn_text_light"
                         android:layout_marginTop="@dimen/radio_margin"
-                        android:text="Water"/>
+                        tool:text="Water"/>
                 </RadioGroup>
 
             </LinearLayout>

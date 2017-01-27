@@ -2,6 +2,7 @@ package as.knowyouropinion.sync;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -16,6 +17,8 @@ import java.util.HashMap;
 import as.knowyouropinion.data.QuestionContract;
 import as.knowyouropinion.data.QuestionDBHelper;
 
+import static as.knowyouropinion.sync.KYOSyncAdapter.ACTION_DATA_UPDATED;
+
 /**<p>
  * Created by Angad on 28/1/17.
  * </p>
@@ -27,6 +30,7 @@ public class FbDBInsertThread extends Thread {
     private String answer;
     private FirebaseDatabase database;
     private SQLiteDatabase db;
+    private Context context;
 
     public FbDBInsertThread(Context context, int i, String answer, FirebaseDatabase database) {
         questionValues = new ContentValues();
@@ -35,6 +39,7 @@ public class FbDBInsertThread extends Thread {
         this.i=i;
         this.answer=answer;
         this.database=database;
+        this.context = context;
     }
 
     @Override
@@ -59,6 +64,7 @@ public class FbDBInsertThread extends Thread {
                 if(opt[0]&&ans[0])
                 {   Log.e("SYNC","Inserted: "+i+" -"+question+" ");
                     db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                    updateWidget();
                 }
             }
 
@@ -80,6 +86,7 @@ public class FbDBInsertThread extends Thread {
                 if(ques[0]&&ans[0])
                 {   Log.e("SYNC","Inserted: "+i);
                     db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                    updateWidget();
                 }
             }
 
@@ -102,6 +109,7 @@ public class FbDBInsertThread extends Thread {
                 if(ques[0]&&opt[0])
                 {   Log.e("SYNC","Inserted: "+i);
                     db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                    updateWidget();
                 }
             }
 
@@ -110,6 +118,15 @@ public class FbDBInsertThread extends Thread {
 
             }
         });
+
+
+    }
+
+    private void updateWidget() {
+        Log.d("mytag", "updated widget");
+        Intent updatedDataIntent = new Intent(ACTION_DATA_UPDATED);
+        updatedDataIntent.setPackage(context.getPackageName());
+        context.sendBroadcast(updatedDataIntent);
     }
 }
 

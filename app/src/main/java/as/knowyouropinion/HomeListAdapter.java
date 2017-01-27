@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import as.knowyouropinion.data.model.HomeQuestionData;
+import as.knowyouropinion.model.HomeQuestionData;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**<p>

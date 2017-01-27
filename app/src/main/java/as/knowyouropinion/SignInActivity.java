@@ -181,7 +181,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     private void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
+            mProgressDialog.dismiss();
         }
     }
 
