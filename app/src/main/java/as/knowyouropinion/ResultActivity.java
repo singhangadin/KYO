@@ -50,7 +50,7 @@ public class ResultActivity extends AppCompatActivity {
         FloatingActionButton markFab = (FloatingActionButton) findViewById(R.id.markFab);
         markFab.hide();
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("Result");
+        toolbar.setTitle(getResources().getString(R.string.label_qno)+qno);
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

@@ -36,7 +36,9 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
     @Override
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         holder.imageView.setImageResource(R.mipmap.ic_launcher);
-        holder.quesNo.setText("Question No. "+cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QNO)));
+        String text = context.getString(R.string.label_qno) + 
+                cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QNO));
+        holder.quesNo.setText(text);
         holder.question.setText(cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QUES)));
         String opt = cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_CHOICE));
         String match="0";
@@ -54,7 +56,8 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
                         break;
 
         }
-        holder.peeps.setText(match+" People think like you!");
+        text = match+context.getString(R.string.label_ppl_think);
+        holder.peeps.setText(text);
     }
 
     @Override

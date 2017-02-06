@@ -9,9 +9,9 @@
     tools:background="#222222">
 
      <ImageView
+         android:id="@+id/rowIcon"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
-         android:id="@+id/rowIcon"
          android:scaleType="centerInside"
          android:layout_marginTop="12dp"
          android:layout_marginBottom="12dp"

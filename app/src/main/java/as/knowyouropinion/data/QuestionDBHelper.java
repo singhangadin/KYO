@@ -43,6 +43,5 @@ public class QuestionDBHelper extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL("DROP TABLE IF EXISTS " + QuestionEntry.TABLE_NAME);
         onCreate(db);
-
     }
 }

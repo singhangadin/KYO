@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import as.knowyouropinion.R;
 import as.knowyouropinion.data.QuestionContract;
@@ -30,7 +31,7 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static final String ACTION_DATA_UPDATED = "as.knowyouropinion.DATA_UPDATED";
 
-    private static final int SYNC_INTERVAL = 60 * 15;
+    private static final int SYNC_INTERVAL = 60 * 10;
     private static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
     public KYOSyncAdapter(Context context, boolean autoInitialize) {
@@ -55,11 +56,20 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
                     null,
                     null
                 );
-                ArrayList<String> ans = (ArrayList<String>) dataSnapshot.getValue();
-                for(int i=0; i<ans.size(); i++)
-                {   String str = ans.get(i);
-                    if(str!=null&&!str.equals("null"))
-                    {   new FbDBInsertThread(context, i, str, database).start();
+                Object obj = dataSnapshot.getValue();
+                if(obj instanceof ArrayList) {
+                    ArrayList<String> ans = (ArrayList<String>) dataSnapshot.getValue();
+                    for (int i = 0; i < ans.size(); i++) {
+                        String str = ans.get(i);
+                        if (str != null && !str.equals("null")) {
+                            new FbDBInsertThread(context, i, str, database).start();
+                        }
+                    }
+                }
+                else if(obj instanceof HashMap)
+                {   HashMap<String, String> HM = (HashMap<String, String>)dataSnapshot.getValue();
+                    for(String key:HM.keySet())
+                    {   new FbDBInsertThread(context, Integer.parseInt(key), HM.get(key), database).start();
                     }
                 }
             }

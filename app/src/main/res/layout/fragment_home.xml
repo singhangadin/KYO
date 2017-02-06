@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:clickable="true"
     android:background="#FFFFFF"
     tools:context=".HomeFragment">
 
@@ -11,5 +12,16 @@
         android:id="@+id/homeList"
         layout="@layout/widget_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:visibility="invisible"/>
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/status"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/label_home_loading"
+        android:layout_margin="@dimen/activity_horizontal_margin"/>
 </FrameLayout>

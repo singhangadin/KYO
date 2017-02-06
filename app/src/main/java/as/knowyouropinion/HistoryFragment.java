@@ -9,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,6 +34,8 @@ public class HistoryFragment extends Fragment implements
     private HistoryCursorAdapter mCursorAdapter;
     private static final int HISTORY_LOADER = 0;
     private Cursor savedCursor;
+    private AppCompatTextView status;
+    private RecyclerView recyclerView;
 
     private String PROJECTION_MATRIX[] = {
             QuestionEntry._ID,
@@ -48,8 +51,9 @@ public class HistoryFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_history,container,false);
-        RecyclerView recyclerView = (RecyclerView)view. findViewById(R.id.historyList);
+        View view=inflater.inflate(R.layout.fragment_home,container,false);
+        status = (AppCompatTextView) view.findViewById(R.id.status);
+        recyclerView = (RecyclerView)view. findViewById(R.id.homeList);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         mCursorAdapter = new HistoryCursorAdapter(context, null);
         recyclerView.setAdapter(mCursorAdapter);
@@ -94,9 +98,13 @@ public class HistoryFragment extends Fragment implements
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
         savedCursor = data;
-//        if (mPosition != ListView.INVALID_POSITION) {
-//            mListView.smoothScrollToPosition(mPosition);
-//        }
+        if(data.getCount()==0)
+        {   status.setText(getString(R.string.label_home_empty));
+        }
+        else
+        {   recyclerView.setVisibility(View.VISIBLE);
+            status.setVisibility(View.GONE);
+        }
     }
 
     @Override

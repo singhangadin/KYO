@@ -3,7 +3,6 @@ package as.knowyouropinion.sync;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,7 +44,6 @@ public class FbDBInsertThread extends Thread {
         super.run();
         questionValues.put(QuestionContract.QuestionEntry.COLUMN_QNO, i);
         questionValues.put(QuestionContract.QuestionEntry.COLUMN_CHOICE, (((int)answer.charAt(0)-(int)'a')+1));
-        Log.e("SYNC","Question No. "+i);
         final boolean[] ques = {false};
         final boolean[] ans = {false};
         final boolean[] opt = {false};
@@ -56,12 +54,10 @@ public class FbDBInsertThread extends Thread {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String question = (String) dataSnapshot.getValue();
-//                Log.e("SYNC","Questions:"+question);
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_QUES, question);
                 ques[0] = true;
                 if(opt[0]&&ans[0])
-                {   Log.e("SYNC","Inserted: "+i+" -"+question+" ");
-                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                     Utility.updateWidget(context);
                 }
             }
@@ -82,8 +78,7 @@ public class FbDBInsertThread extends Thread {
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS4, HM.get("d"));
                 opt[0] = true;
                 if(ques[0]&&ans[0])
-                {   Log.e("SYNC","Inserted: "+i);
-                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                     Utility.updateWidget(context);
                 }
             }
@@ -105,8 +100,7 @@ public class FbDBInsertThread extends Thread {
 
                 ans[0] = true;
                 if(ques[0]&&opt[0])
-                {   Log.e("SYNC","Inserted: "+i);
-                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                     Utility.updateWidget(context);
                 }
             }

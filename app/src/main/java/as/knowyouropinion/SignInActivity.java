@@ -1,6 +1,5 @@
 package as.knowyouropinion;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -40,7 +39,6 @@ public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener{
 
     private GoogleApiClient mGoogleApiClient;
-    private ProgressDialog mProgressDialog;
     private static final int RC_SIGN_IN = 9001;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -159,7 +157,7 @@ public class SignInActivity extends AppCompatActivity implements
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (!task.isSuccessful()) {
                     Log.e("TAG", "Credential:", task.getException());
-                    Toast.makeText(SignInActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -168,7 +166,7 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.e("TAG","Connection Failed");
-        Toast.makeText(SignInActivity.this, "Internet doesn't seem to be Connected!.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
     }
 
     @Override

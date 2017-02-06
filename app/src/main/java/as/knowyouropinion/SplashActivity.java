@@ -87,7 +87,7 @@ public class SplashActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Toast.makeText(SplashActivity.this, "Internet doesn't seem to be Connected!.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
     }
 
     private void handleSignInResult(GoogleSignInResult result) {
@@ -166,7 +166,7 @@ public class SplashActivity extends AppCompatActivity implements
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Log.e("TAG", "Credential:", task.getException());
-                        Toast.makeText(SplashActivity.this, "Internet doesn't seem to be Connected!.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
                     }
                     else
                     {   Thread T1=new Thread(new Runnable() {

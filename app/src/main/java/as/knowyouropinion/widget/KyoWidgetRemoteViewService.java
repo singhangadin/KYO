@@ -8,6 +8,7 @@ import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import as.knowyouropinion.R;
+import as.knowyouropinion.ResultActivity;
 import as.knowyouropinion.data.QuestionContract;
 
 /**<p>
@@ -16,16 +17,6 @@ import as.knowyouropinion.data.QuestionContract;
  */
 
 public class KyoWidgetRemoteViewService extends RemoteViewsService {
-//    private String PROJECTION_MATRIX[] = {
-//            QuestionEntry._ID,
-//            QuestionEntry.COLUMN_QNO,
-//            QuestionEntry.COLUMN_QUES,
-//            QuestionEntry.COLUMN_ANS1V,
-//            QuestionEntry.COLUMN_ANS2V,
-//            QuestionEntry.COLUMN_ANS3V,
-//            QuestionEntry.COLUMN_ANS4V,
-//            QuestionEntry.COLUMN_CHOICE
-//    };
 
     private final int INDEX_ID = 0;
     private final int INDEX_QUES_NO = 1;
@@ -80,7 +71,7 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                     return null;
                 }
                 RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget_list_item);
-                views.setTextViewText(R.id.questionNo,"Question No. "+ data.getString(INDEX_QUES_NO));
+                views.setTextViewText(R.id.questionNo,getResources().getString(R.string.label_qno)+ data.getString(INDEX_QUES_NO));
                 views.setTextViewText(R.id.question, data.getString(INDEX_QUES));
                 String opt = data.getString(INDEX_CHOICE);
                 String match="0";
@@ -98,11 +89,12 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                         break;
 
                 }
-                views.setTextViewText(R.id.peeps, match + " People think like you!");
+                views.setTextViewText(R.id.peeps, match + getResources().getString(R.string.label_ppl_think));
 
-//                Intent intent = new Intent(getApplicationContext(), QuizActivity.class);
-//                intent.putExtra(getString(R.string.symbol_label), symbols);
-//                views.setOnClickFillInIntent(R.id.quote_root, intent);
+                Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
+                int qno = data.getInt(INDEX_QUES_NO);
+                intent.putExtra("qno", qno);
+                views.setOnClickFillInIntent(R.id.list_item, intent);
                 return views;
             }
 

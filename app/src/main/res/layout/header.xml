@@ -29,7 +29,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:textColor="#ffffff"
-            android:text=""
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -41,7 +40,6 @@
             android:layout_marginLeft="16dp"
             android:layout_marginStart="16dp"
             android:layout_marginTop="2dp"
-            android:text=""
             android:textSize="14sp"
             android:textStyle="normal" />
     </LinearLayout>

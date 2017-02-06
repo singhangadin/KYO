@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,12 +40,16 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
     private TreeMap<Integer, Integer> questionMapper;
     private HomeListAdapter adapter;
     private HashSet<Integer> doneKeys;
+    private AppCompatTextView status;
+    private RecyclerView homeList;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
+        status = (AppCompatTextView) view.findViewById(R.id.status);
+        homeList=(RecyclerView)view.findViewById(R.id.homeList);
         homeQuestionData = new ArrayList<>();
         questionMapper = new TreeMap<>();
         doneKeys = new HashSet<>();
@@ -73,6 +77,11 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                     {   questionMapper.put(homeQuestionData.get(i).getQuesNo(), i);
                     }
                     adapter.notifyDataSetChanged();
+                }
+                if(questionMapper.size()==0&&doneKeys.size()!=0)
+                {   homeList.setVisibility(View.INVISIBLE);
+                    status.setText(getString(R.string.label_home_empty));
+                    status.setVisibility(View.VISIBLE);
                 }
             }
 
@@ -109,6 +118,15 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                     addElementToList(data);
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
                 }
+                if(homeList.getVisibility()==View.INVISIBLE)
+                {   homeList.setVisibility(View.VISIBLE);
+                    status.setVisibility(View.INVISIBLE);
+                }
+                if(questionMapper.size()==0&&doneKeys.size()!=0)
+                {   homeList.setVisibility(View.INVISIBLE);
+                    status.setText(getString(R.string.label_home_empty));
+                    status.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -132,8 +150,8 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(context,"Loading Cancelled",Toast.LENGTH_SHORT).show();
-
+//                Toast.makeText(context,"Loading Cancelled",Toast.LENGTH_SHORT).show();
+                status.setText(getString(R.string.label_home_dc));
             }
         });
 
@@ -190,7 +208,6 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
             }
         });
 
-        RecyclerView homeList=(RecyclerView)view.findViewById(R.id.homeList);
         homeList.setLayoutManager(new LinearLayoutManager(context));
         homeList.setAdapter(adapter);
         RecyclerTouchHelper helper = new RecyclerTouchHelper(context);

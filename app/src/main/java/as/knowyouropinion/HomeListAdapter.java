@@ -45,9 +45,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 //            holder.email.setText(email);
 //        }
         HomeQuestionData data = ListData.get(position);
-        holder.quesNo.setText("Question No. "+data.getQuesNo());
+        holder.quesNo.setText(context.getResources().getString(R.string.label_qno)+data.getQuesNo());
         holder.question.setText(data.getQuestion());
-        String text=data.getPeeps()+" people answered this question.";
+        String text=data.getPeeps()+context.getResources().getString(R.string.label_ppl_think);
         holder.peeps.setText(text);
         holder.imageView.setImageResource(R.mipmap.ic_launcher);
         Glide.with(context).load(data.getImgUrl()).into(holder.imageView);
@@ -87,9 +87,5 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     public void onViewDetachedFromWindow(ViewHolder holder) {
         holder.itemView.clearAnimation();
         super.onViewDetachedFromWindow(holder);
-    }
-
-    public void removeItem(int position) {
-        ListData.remove(position);
     }
 }

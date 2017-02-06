@@ -76,7 +76,7 @@ public class QuizActivity extends AppCompatActivity {
         markFab = (FloatingActionButton) findViewById(R.id.markFab);
         markFab.hide();
         Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle("QuizActivity");
+        toolbar.setTitle(getResources().getString(R.string.label_qno)+qno);
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +111,7 @@ public class QuizActivity extends AppCompatActivity {
                     int id = options.getCheckedRadioButtonId();
                     option = (RadioButton) findViewById(id);
                     if(option.getText().toString().equals(""))
-                    {   Toast.makeText(getBaseContext(),"Can't connect to server, Please try again!",Toast.LENGTH_SHORT).show();
+                    {   Toast.makeText(getBaseContext(), R.string.err_server_conn,Toast.LENGTH_SHORT).show();
                     }
                     else
                     {   answered = true;

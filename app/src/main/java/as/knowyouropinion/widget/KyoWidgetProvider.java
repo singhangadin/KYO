@@ -13,8 +13,8 @@ import android.support.v4.app.TaskStackBuilder;
 import android.widget.RemoteViews;
 
 import as.knowyouropinion.MainActivity;
-import as.knowyouropinion.QuizActivity;
 import as.knowyouropinion.R;
+import as.knowyouropinion.ResultActivity;
 
 import static as.knowyouropinion.sync.KYOSyncAdapter.ACTION_DATA_UPDATED;
 
@@ -51,7 +51,7 @@ public class KyoWidgetProvider extends AppWidgetProvider {
 
             views.setEmptyView(R.id.list_widget, R.id.empty_text);
 
-            Intent clickIntentTemplate = new Intent(context, QuizActivity.class);
+            Intent clickIntentTemplate = new Intent(context, ResultActivity.class);
             PendingIntent clickPendingIntentTemplate = TaskStackBuilder.create(context)
                     .addNextIntentWithParentStack(clickIntentTemplate)
                     .getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);

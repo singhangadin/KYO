@@ -57,11 +57,13 @@ public class DrawerAdapter extends RecyclerView.Adapter<DrawerAdapter.ViewHolder
         if(holder.Holderid ==1) {
             holder.textView.setText(mNavTitles[position - 1]);
             holder.imageView.setImageResource(mIcons[position -1]);
+            holder.imageView.setContentDescription(mNavTitles[position - 1]);
         }
         else{
             Glide.with(context).load(profile).into(holder.profile);
             holder.name.setText(name);
             holder.email.setText(email);
+            holder.profile.setContentDescription(name);
         }
     }
 

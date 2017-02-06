@@ -42,9 +42,10 @@ public class MainActivity extends AppCompatActivity implements
         OnRecyclerClickListener,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private String TITLES[] = {"Home", "My Answers", "About", "Logout"};
-    private int ICONS[] = { R.drawable.ic_action_home, R.drawable.ic_action_answered,
-                            R.drawable.ic_action_about, R.drawable.ic_action_log_out};
+    private String TITLES[];
+    private int ICONS[] = { R.drawable.ic_action_home,
+                            R.drawable.ic_action_answered,
+                            R.drawable.ic_action_log_out};
 
     private FrameLayout mDrawerLayout;
     private DrawerLayout Drawer;
@@ -58,7 +59,12 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TITLES = new String[]{  getResources().getString(R.string.label_home),
+                                getResources().getString(R.string.label_history),
+                                getResources().getString(R.string.label_logout)};
+
         setContentView(R.layout.activity_main);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(BuildConfig.OAUTH_CLIENT_ID)
@@ -162,10 +168,7 @@ public class MainActivity extends AppCompatActivity implements
             case 1: frag=new HistoryFragment();
                     break;
 
-            case 2: frag=new AboutFragment();
-                    break;
-
-            case 3: FirebaseAuth.getInstance().signOut();
+            case 2: FirebaseAuth.getInstance().signOut();
                     if(mGoogleApiClient.isConnected())
                     Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                         @Override
@@ -203,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements
             }
 
             this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.label_warn_exit, Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
 
                 @Override
