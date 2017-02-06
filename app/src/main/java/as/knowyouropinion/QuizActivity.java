@@ -30,6 +30,7 @@ import java.util.HashMap;
 
 import as.knowyouropinion.data.QuestionContract;
 import as.knowyouropinion.data.QuestionDBHelper;
+import as.knowyouropinion.utils.Utility;
 
 import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS1;
 import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS1V;
@@ -88,7 +89,9 @@ public class QuizActivity extends AppCompatActivity {
         options.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                markFab.show();
+                if(!answered)
+                {   markFab.show();
+                }
             }
         });
 
@@ -96,7 +99,6 @@ public class QuizActivity extends AppCompatActivity {
         final DatabaseReference answer = database.getReference("Answers").child(qno+"");
         DatabaseReference questn = database.getReference("Questions").child(qno+"");
         DatabaseReference optn = database.getReference("Options").child(qno+"");
-        DatabaseReference image = database.getReference("Images").child(qno+"");
 
         markFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,35 +110,39 @@ public class QuizActivity extends AppCompatActivity {
                     DatabaseReference user = database.getReference("Users").child(userID);
                     int id = options.getCheckedRadioButtonId();
                     option = (RadioButton) findViewById(id);
-                    Toast.makeText(getBaseContext(), option.getText().toString(), Toast.LENGTH_SHORT).show();
-                    answered = true;
-                    switch (id) {
-                        case R.id.A:
-                            incrementCounter(answer.child("a"),1);
-                            user.child(qno+"").setValue("a");
-                            break;
-
-                        case R.id.B:
-                            incrementCounter(answer.child("b"),2);
-                            user.child(qno+"").setValue("b");
-                            break;
-
-                        case R.id.C:
-                            incrementCounter(answer.child("c"),3);
-                            user.child(qno+"").setValue("c");
-                            break;
-
-                        case R.id.D:
-                            incrementCounter(answer.child("d"),4);
-                            user.child(qno+"").setValue("d");
-                            break;
+                    if(option.getText().toString().equals(""))
+                    {   Toast.makeText(getBaseContext(),"Can't connect to server, Please try again!",Toast.LENGTH_SHORT).show();
                     }
+                    else
+                    {   answered = true;
+                        A.setClickable(false);
+                        B.setClickable(false);
+                        C.setClickable(false);
+                        D.setClickable(false);
+                        option.setEnabled(true);
+                        switch (id) {
+                            case R.id.A:
+                                incrementCounter(answer.child("a"),1);
+                                user.child(qno+"").setValue("a");
+                                break;
 
-                    markFab.hide();
+                            case R.id.B:
+                                incrementCounter(answer.child("b"),2);
+                                user.child(qno+"").setValue("b");
+                                break;
 
-                }
-                else
-                {
+                            case R.id.C:
+                                incrementCounter(answer.child("c"),3);
+                                user.child(qno+"").setValue("c");
+                                break;
+
+                            case R.id.D:
+                                incrementCounter(answer.child("d"),4);
+                                user.child(qno+"").setValue("d");
+                                break;
+                        }
+                        markFab.hide();
+                    }
                 }
             }
         });
@@ -255,6 +261,7 @@ public class QuizActivity extends AppCompatActivity {
                     if (cursor != null) {
                         cursor.close();
                     }
+                    Utility.updateWidget(QuizActivity.this);
                     Log.d("TAG","Firebase counter increment succeeded.");
                 }
             }

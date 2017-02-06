@@ -4,4 +4,5 @@
     <string name="app_name">Know Your Opinion</string>
     <string name="content_authority">as.knowyouropinion</string>
     <string name="sync_account_type">knowyouropinion.as</string>
+    <string name="label_loading">Loading…</string>
 </resources>

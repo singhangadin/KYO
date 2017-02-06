@@ -2,7 +2,6 @@ package as.knowyouropinion.sync;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
@@ -16,8 +15,7 @@ import java.util.HashMap;
 
 import as.knowyouropinion.data.QuestionContract;
 import as.knowyouropinion.data.QuestionDBHelper;
-
-import static as.knowyouropinion.sync.KYOSyncAdapter.ACTION_DATA_UPDATED;
+import as.knowyouropinion.utils.Utility;
 
 /**<p>
  * Created by Angad on 28/1/17.
@@ -64,7 +62,7 @@ public class FbDBInsertThread extends Thread {
                 if(opt[0]&&ans[0])
                 {   Log.e("SYNC","Inserted: "+i+" -"+question+" ");
                     db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
-                    updateWidget();
+                    Utility.updateWidget(context);
                 }
             }
 
@@ -86,7 +84,7 @@ public class FbDBInsertThread extends Thread {
                 if(ques[0]&&ans[0])
                 {   Log.e("SYNC","Inserted: "+i);
                     db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
-                    updateWidget();
+                    Utility.updateWidget(context);
                 }
             }
 
@@ -109,7 +107,7 @@ public class FbDBInsertThread extends Thread {
                 if(ques[0]&&opt[0])
                 {   Log.e("SYNC","Inserted: "+i);
                     db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
-                    updateWidget();
+                    Utility.updateWidget(context);
                 }
             }
 
@@ -120,13 +118,6 @@ public class FbDBInsertThread extends Thread {
         });
 
 
-    }
-
-    private void updateWidget() {
-        Log.d("mytag", "updated widget");
-        Intent updatedDataIntent = new Intent(ACTION_DATA_UPDATED);
-        updatedDataIntent.setPackage(context.getPackageName());
-        context.sendBroadcast(updatedDataIntent);
     }
 }
 

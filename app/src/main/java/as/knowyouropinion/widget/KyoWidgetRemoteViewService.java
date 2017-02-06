@@ -56,7 +56,7 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                         null,
                         null,
                         null,
-                        null);
+                        QuestionContract.QuestionEntry.COLUMN_QNO+" asc");
                 Binder.restoreCallingIdentity(identityToken);
             }
 

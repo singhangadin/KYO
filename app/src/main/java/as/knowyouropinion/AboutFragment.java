@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**<p>
- * Created by localhost on 23/1/17.
+ * Created by Angad on 23/1/17.
  * </p>
  */
 
@@ -17,7 +17,6 @@ public class AboutFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_about,container,false);
-        return view;
+        return inflater.inflate(R.layout.fragment_about,container,false);
     }
 }

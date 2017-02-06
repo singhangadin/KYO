@@ -30,6 +30,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 
+import as.knowyouropinion.data.QuestionContract;
 import as.knowyouropinion.model.DrawerAdapter;
 import as.knowyouropinion.sync.KYOSyncAdapter;
 import as.knowyouropinion.utils.OnRecyclerClickListener;
@@ -170,7 +171,12 @@ public class MainActivity extends AppCompatActivity implements
                         @Override
                         public void onResult(@NonNull Status status) {
                             if(status.isSuccess())
-                            {   startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                            {   getContentResolver().delete(
+                                    QuestionContract.QuestionEntry.CONTENT_URI,
+                                    null,
+                                    null
+                                );
+                                startActivity(new Intent(MainActivity.this, SignInActivity.class));
                                 finish();
                             }
                         }

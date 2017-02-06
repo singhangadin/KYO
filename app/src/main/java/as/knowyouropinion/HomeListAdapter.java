@@ -88,4 +88,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.itemView.clearAnimation();
         super.onViewDetachedFromWindow(holder);
     }
+
+    public void removeItem(int position) {
+        ListData.remove(position);
+    }
 }

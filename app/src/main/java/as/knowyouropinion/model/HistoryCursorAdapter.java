@@ -19,7 +19,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCursorAdapter.ViewHolder> {
-
     private Context context;
 
     public HistoryCursorAdapter(Context context, Cursor cursor) {
@@ -65,7 +64,6 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
 
     class ViewHolder extends RecyclerView.ViewHolder
     {   View itemView;
-
         CircleImageView imageView;
         AppCompatTextView question, peeps, quesNo;
 

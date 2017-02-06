@@ -1,6 +1,7 @@
 package as.knowyouropinion;
 
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,8 @@ import android.view.ViewGroup;
 import as.knowyouropinion.data.QuestionContract;
 import as.knowyouropinion.data.QuestionContract.QuestionEntry;
 import as.knowyouropinion.model.HistoryCursorAdapter;
+import as.knowyouropinion.utils.OnRecyclerClickListener;
+import as.knowyouropinion.utils.RecyclerTouchHelper;
 
 /**<p>
  * Created by Angad on 23/1/17.
@@ -25,9 +28,11 @@ import as.knowyouropinion.model.HistoryCursorAdapter;
 
 public class HistoryFragment extends Fragment implements
     LoaderManager.LoaderCallbacks<Cursor> {
+
     private Context context;
     private HistoryCursorAdapter mCursorAdapter;
     private static final int HISTORY_LOADER = 0;
+    private Cursor savedCursor;
 
     private String PROJECTION_MATRIX[] = {
             QuestionEntry._ID,
@@ -42,13 +47,25 @@ public class HistoryFragment extends Fragment implements
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_history,container,false);
         RecyclerView recyclerView = (RecyclerView)view. findViewById(R.id.historyList);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         mCursorAdapter = new HistoryCursorAdapter(context, null);
         recyclerView.setAdapter(mCursorAdapter);
-
+        RecyclerTouchHelper helper = new RecyclerTouchHelper(context);
+        recyclerView.addOnItemTouchListener(helper);
+        helper.setOnRecyclerClickListener(new OnRecyclerClickListener() {
+            @Override
+            public boolean onClick(View child, int position) {
+                savedCursor.moveToPosition(position);
+                int qno = savedCursor.getInt(savedCursor.getColumnIndex(QuestionEntry.COLUMN_QNO));
+                Intent intent = new Intent(context, ResultActivity.class);
+                intent.putExtra("qno",qno);
+                startActivity(intent);
+                return false;
+            }
+        });
         return view;
     }
 
@@ -70,12 +87,13 @@ public class HistoryFragment extends Fragment implements
                 PROJECTION_MATRIX,
                 null,
                 null,
-                null);
+                QuestionEntry.COLUMN_QNO+" asc");
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
+        savedCursor = data;
 //        if (mPosition != ListView.INVALID_POSITION) {
 //            mListView.smoothScrollToPosition(mPosition);
 //        }

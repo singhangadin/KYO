@@ -2,7 +2,9 @@ package as.knowyouropinion;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -19,6 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.TreeMap;
 
 import as.knowyouropinion.model.HomeQuestionData;
@@ -35,6 +39,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
     private ArrayList<HomeQuestionData> homeQuestionData;
     private TreeMap<Integer, Integer> questionMapper;
     private HomeListAdapter adapter;
+    private HashSet<Integer> doneKeys;
 
 
     @Nullable
@@ -43,11 +48,51 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
         View view = inflater.inflate(R.layout.fragment_home,container,false);
         homeQuestionData = new ArrayList<>();
         questionMapper = new TreeMap<>();
+        doneKeys = new HashSet<>();
         adapter = new HomeListAdapter(homeQuestionData, context);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String email = preferences.getString("EMAIL","Email");
+        String userID = email.split("@")[0].replace(".",",");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference questions = database.getReference("Questions");
+        final DatabaseReference questions = database.getReference("Questions");
         DatabaseReference answers = database.getReference("Answers");
-        DatabaseReference images = database.getReference("Images");
+        DatabaseReference user = database.getReference("Users").child(userID);
+
+        user.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                String key = dataSnapshot.getKey();
+                if(key!=null&&!key.equals("null"))
+                {   doneKeys.add(Integer.parseInt(key));
+                }
+                if(questionMapper.containsKey(Integer.parseInt(key)))
+                {   int pos=questionMapper.get(Integer.parseInt(key));
+                    homeQuestionData.remove(pos);
+                    questionMapper.clear();
+                    for(int i=0;i<homeQuestionData.size();i++)
+                    {   questionMapper.put(homeQuestionData.get(i).getQuesNo(), i);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
         questions.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -57,7 +102,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                     data.setQuestion(dataSnapshot.getValue().toString());
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
                 }
-                else
+                else if(!doneKeys.contains(quesNo))
                 {   HomeQuestionData data = new HomeQuestionData();
                     data.setQuestion(dataSnapshot.getValue().toString());
                     data.setQuesNo(quesNo);
@@ -87,9 +132,11 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(context,"Loading Cancelled",Toast.LENGTH_SHORT).show();
 
             }
         });
+
         answers.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -104,7 +151,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                     data.setPeeps(total);
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
                 }
-                else
+                else if(!doneKeys.contains(quesNo))
                 {   HomeQuestionData data = new HomeQuestionData();
                     data.setQuesNo(quesNo);
                     data.setPeeps(total);
@@ -121,7 +168,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                 for(String key: count.keySet())
                 {   total+=count.get(key);
                 }
-                if(questionMapper.containsKey(quesNo))
+                if(questionMapper.containsKey(quesNo)&&!doneKeys.contains(quesNo)&&questionMapper.get(quesNo)<homeQuestionData.size())
                 {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
                     data.setPeeps(total);
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
@@ -142,41 +189,6 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 
             }
         });
-
-//        images.addChildEventListener(new ChildEventListener() {
-//            @Override
-//            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-//                Log.e("TAG", "String:"+dataSnapshot.getKey() +" Value: "+dataSnapshot.getValue());
-//            }
-//
-//            @Override
-//            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-//                Log.e("TAG", "String:"+dataSnapshot.getKey() +" Value: "+dataSnapshot.getValue());
-//            }
-//
-//            @Override
-//            public void onChildRemoved(DataSnapshot dataSnapshot) {
-//                Log.e("TAG", "String:"+dataSnapshot.getKey() +" Value: "+dataSnapshot.getValue());
-//            }
-//
-//            @Override
-//            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-
-//        for(int i=0; i<10; i++)
-//        {   HomeQuestionData data = new HomeQuestionData();
-//            data.setPeeps(50);
-//            data.setQuestion("Question No."+i);
-//            data.setQuesNo(i);
-//            homeQuestionData.add(data);
-//        }
 
         RecyclerView homeList=(RecyclerView)view.findViewById(R.id.homeList);
         homeList.setLayoutManager(new LinearLayoutManager(context));
