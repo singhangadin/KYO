@@ -22,7 +22,7 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
     private Context context;
 
     public HistoryCursorAdapter(Context context, Cursor cursor) {
-        super(context, cursor);
+        super(cursor);
         this.context = context;
     }
 
@@ -32,10 +32,11 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
         return new ViewHolder(itemView);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
+    @SuppressWarnings("deprecation")
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         holder.imageView.setImageResource(R.mipmap.ic_launcher);
+        holder.imageView.setContentDescription(cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QUES)));
         String text = context.getString(R.string.label_qno) + 
                 cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QNO));
         holder.quesNo.setText(text);

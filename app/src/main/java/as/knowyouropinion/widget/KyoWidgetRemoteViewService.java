@@ -17,7 +17,6 @@ import as.knowyouropinion.data.QuestionContract;
  */
 
 public class KyoWidgetRemoteViewService extends RemoteViewsService {
-
     private final int INDEX_ID = 0;
     private final int INDEX_QUES_NO = 1;
     private final int INDEX_QUES = 2;
@@ -81,17 +80,17 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                 int D = data.getInt(INDEX_ANS4V);
                 int match = 0;
                 switch(opt)
-                {   case 1:   match = A;
-                    break;
+                {   case 1: match = A;
+                            break;
 
-                    case 2:   match = B;
-                        break;
+                    case 2: match = B;
+                            break;
 
-                    case 3:   match = C;
-                        break;
+                    case 3: match = C;
+                            break;
 
-                    case 4:   match = D;
-                        break;
+                    case 4: match = D;
+                            break;
 
                 }
                 int total = A + B + C + D;

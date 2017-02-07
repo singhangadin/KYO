@@ -174,10 +174,10 @@ public class MainActivity extends AppCompatActivity implements
                     toolbar.setTitle(TITLES[i]);
                     break;
 
-            case 2: AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle("Log Out");
-                    builder.setMessage("Are you sure you want to Logout?");
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            case 2: AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle(getString(R.string.label_logout));
+                    builder.setMessage(R.string.label_dialog_message);
+                    builder.setPositiveButton(R.string.dialog_label_positive, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             FirebaseAuth.getInstance().signOut();
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity implements
                                 });
                         }
                     });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton(R.string.dialog_label_negative, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();

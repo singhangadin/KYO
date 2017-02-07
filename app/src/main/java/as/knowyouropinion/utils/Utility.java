@@ -15,13 +15,13 @@ import static as.knowyouropinion.sync.KYOSyncAdapter.ACTION_DATA_UPDATED;
 
 public class Utility {
 
+    public static boolean adShown = false;
+
     public static boolean isNetworkAvailable(Context c) {
         ConnectivityManager cm = (ConnectivityManager)c.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork != null && activeNetwork.isConnectedOrConnecting();
     }
-
-
 
     public static void updateWidget(Context c) {
         Log.d("mytag", "updated widget");

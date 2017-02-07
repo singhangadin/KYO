@@ -26,7 +26,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder>
 {   private static final int TYPE_ITEM = 1;
-
     private Context context;
     private ArrayList<HomeQuestionData> ListData;
 
@@ -49,6 +48,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.question.setText(data.getQuestion());
         String text=data.getPeeps()+context.getResources().getString(R.string.label_ppl_ans);
         holder.peeps.setText(text);
+        holder.indicator.setContentDescription(data.getQuestion());
         holder.indicator.setBackgroundColor(ListData.get(position).getColor());
         Glide.with(context).load(data.getImgUrl()).into(holder.imageView);
     }

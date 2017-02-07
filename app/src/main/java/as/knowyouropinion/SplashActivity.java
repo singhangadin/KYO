@@ -38,7 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class SplashActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener{
-
+    private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
@@ -51,7 +51,7 @@ public class SplashActivity extends AppCompatActivity implements
                 .requestIdToken(BuildConfig.OAUTH_CLIENT_ID)
                 .build();
 
-        GoogleApiClient mGoogleApiClient = new GoogleApiClient.Builder(this)
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
@@ -68,6 +68,12 @@ public class SplashActivity extends AppCompatActivity implements
                 }
             }
         };
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             Log.e("TAG", "Got cached sign-in");
@@ -82,7 +88,6 @@ public class SplashActivity extends AppCompatActivity implements
                 }
             });
         }
-        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override

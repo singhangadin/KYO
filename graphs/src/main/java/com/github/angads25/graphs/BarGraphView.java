@@ -47,7 +47,7 @@ public class BarGraphView extends View {
     @SuppressWarnings("deprecation")
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        String label, maxLabel="100%";
+        String label, maxLabel=getResources().getString(R.string.label_hundred_perc);
         canvas.drawColor(Color.WHITE);
         paint.setTextSize(refDim/15f);
         paint.setStrokeWidth(refDim/175f);
@@ -136,13 +136,13 @@ public class BarGraphView extends View {
         paint.setTextSize(refDim/10f);
         paint.setStrokeWidth(refDim/75f);
         paint.setStyle(Paint.Style.STROKE);
-        String LARGE_ALPHA = "M";
+        String LARGE_ALPHA = getResources().getString(R.string.label_option_d);
 
         canvas.save();
         canvas.rotate(45,
                 (wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/2),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2));
-        canvas.drawText("A",
+        canvas.drawText(getResources().getString(R.string.label_option_a),
                 (wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/1.5f),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2), paint);
         canvas.restore();
@@ -151,7 +151,7 @@ public class BarGraphView extends View {
         canvas.rotate(45,
                 (2 * wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/2),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2));
-        canvas.drawText("B",
+        canvas.drawText(getResources().getString(R.string.label_option_b),
                 (2 * wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/1.5f),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2), paint);
         canvas.restore();
@@ -160,7 +160,7 @@ public class BarGraphView extends View {
         canvas.rotate(45,
                 (3 * wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/2),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2));
-        canvas.drawText("C",
+        canvas.drawText(getResources().getString(R.string.label_option_c),
                 (3 * wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/1.5f),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2), paint);
         canvas.restore();
@@ -169,7 +169,7 @@ public class BarGraphView extends View {
         canvas.rotate(45,
                 (4 * wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/2),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2));
-        canvas.drawText("D",
+        canvas.drawText(getResources().getString(R.string.label_option_d),
                 (4 * wPartition) + (wPartition/2) - (paint.measureText(LARGE_ALPHA)/1.5f),
                 height + (wPartition/2) + (paint.measureText(LARGE_ALPHA) / 2), paint);
         canvas.restore();

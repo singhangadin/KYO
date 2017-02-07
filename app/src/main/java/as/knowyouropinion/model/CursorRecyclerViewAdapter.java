@@ -1,6 +1,5 @@
 package as.knowyouropinion.model;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
@@ -17,7 +16,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
     private int rowIdColumn;
     private DataSetObserver mDataSetObserver;
 
-    public CursorRecyclerViewAdapter(Context context, Cursor cursor) {
+    CursorRecyclerViewAdapter(Cursor cursor) {
         mCursor = cursor;
         dataIsValid = cursor != null;
         rowIdColumn = dataIsValid ? mCursor.getColumnIndex("_id") : -1;
@@ -25,10 +24,6 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         if (dataIsValid) {
             mCursor.registerDataSetObserver(mDataSetObserver);
         }
-    }
-
-    public Cursor getCursor() {
-        return mCursor;
     }
 
     @Override

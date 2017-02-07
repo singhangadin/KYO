@@ -109,11 +109,8 @@ class FbDBInsertThread extends Thread {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-
-
     }
 }
 

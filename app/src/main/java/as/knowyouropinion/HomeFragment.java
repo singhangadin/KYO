@@ -221,21 +221,19 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
             @Override
             @SuppressWarnings("unchecked")
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                ArrayList<String> image = (ArrayList<String>) dataSnapshot.getValue();
-                for(int i=0;i<image.size();i++)
-                {
-                    if(questionMapper.containsKey(i))
-                    {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(i));
-                        data.setImgUrl(image.get(i));
-                        adapter.notifyItemChanged(questionMapper.get(i));
-                    }
-                    else if(!doneKeys.contains(i))
-                    {   HomeQuestionData data = new HomeQuestionData();
-                        data.setQuesNo(i);
-                        data.setImgUrl(image.get(i));
-                        addElementToList(data);
-                        adapter.notifyItemChanged(questionMapper.get(i));
-                    }
+                int i = Integer.parseInt(dataSnapshot.getKey());
+                String link = dataSnapshot.getValue().toString();
+                if(questionMapper.containsKey(i))
+                {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(i));
+                    data.setImgUrl(link);
+                    adapter.notifyItemChanged(questionMapper.get(i));
+                }
+                else if(!doneKeys.contains(i))
+                {   HomeQuestionData data = new HomeQuestionData();
+                    data.setQuesNo(i);
+                    data.setImgUrl(link);
+                    addElementToList(data);
+                    adapter.notifyItemChanged(questionMapper.get(i));
                 }
             }
 

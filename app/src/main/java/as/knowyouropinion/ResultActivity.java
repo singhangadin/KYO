@@ -24,6 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import as.knowyouropinion.data.QuestionContract;
+import as.knowyouropinion.utils.Utility;
 
 import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS1;
 import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS1V;
@@ -106,10 +107,10 @@ public class ResultActivity extends AppCompatActivity {
             if(total == 0)
             {   total = 1;
             }
-            A.setText(Sa+" "+((Ia*100)/total)+"%");
-            B.setText(Sb+" "+((Ib*100)/total)+"%");
-            C.setText(Sc+" "+((Ic*100)/total)+"%");
-            D.setText(Sd+" "+((Id*100)/total)+"%");
+            A.setText(Sa+" "+((Ia*100)/total)+getString(R.string.symbol_percentage));
+            B.setText(Sb+" "+((Ib*100)/total)+getString(R.string.symbol_percentage));
+            C.setText(Sc+" "+((Ic*100)/total)+getString(R.string.symbol_percentage));
+            D.setText(Sd+" "+((Id*100)/total)+getString(R.string.symbol_percentage));
 
             switch (choice) {
                 case 1: A.performClick();
@@ -173,10 +174,10 @@ public class ResultActivity extends AppCompatActivity {
                 Sb = HM.get("b");
                 Sc = HM.get("c");
                 Sd = HM.get("d");
-                A.setText(Sa+" "+((Ia*100)/total)+"%");
-                B.setText(Sb+" "+((Ib*100)/total)+"%");
-                C.setText(Sc+" "+((Ic*100)/total)+"%");
-                D.setText(Sd+" "+((Id*100)/total)+"%");
+                A.setText(Sa+" "+((Ia*100)/total)+getString(R.string.symbol_percentage));
+                B.setText(Sb+" "+((Ib*100)/total)+getString(R.string.symbol_percentage));
+                C.setText(Sc+" "+((Ic*100)/total)+getString(R.string.symbol_percentage));
+                D.setText(Sd+" "+((Id*100)/total)+getString(R.string.symbol_percentage));
             }
 
             @Override
@@ -202,10 +203,10 @@ public class ResultActivity extends AppCompatActivity {
                 short percB = (short) ((Ib*100)/total);
                 short percC = (short) ((Ic*100)/total);
                 short percD = (short) ((Id*100)/total);
-                A.setText(Sa+" "+percA+"%");
-                B.setText(Sb+" "+percB+"%");
-                C.setText(Sc+" "+percC+"%");
-                D.setText(Sd+" "+percD+"%");
+                A.setText(Sa+" "+percA+getString(R.string.symbol_percentage));
+                B.setText(Sb+" "+percB+getString(R.string.symbol_percentage));
+                C.setText(Sc+" "+percC+getString(R.string.symbol_percentage));
+                D.setText(Sd+" "+percD+getString(R.string.symbol_percentage));
                 if(barGraphView!=null)
                 {   barGraphView.setPerc(percA, percB, percC, percD);
                 }
@@ -237,8 +238,9 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mInterstitialAd.isLoaded()) {
+        if (mInterstitialAd.isLoaded()&& !Utility.adShown) {
             mInterstitialAd.show();
+            Utility.adShown = true;
         }
     }
 
