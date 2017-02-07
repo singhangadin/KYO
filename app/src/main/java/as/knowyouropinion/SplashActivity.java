@@ -31,13 +31,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 6/2/17.
  * </p>
  */
 
 public class SplashActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.OnConnectionFailedListener {
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -79,8 +80,7 @@ public class SplashActivity extends AppCompatActivity implements
             Log.e("TAG", "Got cached sign-in");
             GoogleSignInResult result = opr.get();
             handleSignInResult(result);
-        }
-        else {
+        } else {
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
@@ -102,21 +102,21 @@ public class SplashActivity extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
             if (acct != null) {
                 String email = acct.getEmail();
-                SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
-                SharedPreferences.Editor editor=preferences.edit();
-                editor.putString("NAME",acct.getDisplayName());
-                editor.putString("EMAIL",email);
-                editor.putString("PHOTO","https://lh3.googleusercontent.com/"+acct.getPhotoUrl().getPath());
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("NAME", acct.getDisplayName());
+                editor.putString("EMAIL", email);
+                editor.putString("PHOTO", "https://lh3.googleusercontent.com/" + acct.getPhotoUrl().getPath());
                 editor.apply();
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 final DatabaseReference users = database.getReference("Users");
-                final String temp = email.split("@")[0].replace(".",",");
+                final String temp = email.split("@")[0].replace(".", ",");
                 final DatabaseReference child = users.child(temp);
                 child.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(!dataSnapshot.exists())
-                        {   Log.e("TAG","Child doesn't exist");
+                        if (!dataSnapshot.exists()) {
+                            Log.e("TAG", "Child doesn't exist");
                             users.child(temp).setValue("null");
                         }
                     }
@@ -126,24 +126,20 @@ public class SplashActivity extends AppCompatActivity implements
                     }
                 });
                 firebaseAuthWithGoogle(acct);
-            }
-            else
-            {   startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+            } else {
+                startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                 finish();
             }
-        }
-        else {
+        } else {
             Log.e("TAG", "Sign In Failed");
-            Thread T1=new Thread(new Runnable() {
+            Thread T1 = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Thread.sleep(2000);
-                    }
-                    catch (InterruptedException e) {
+                    } catch (InterruptedException e) {
                         e.printStackTrace();
-                    }
-                    finally {
+                    } finally {
                         startActivity(new Intent(SplashActivity.this, SignInActivity.class));
                         finish();
                     }
@@ -154,8 +150,8 @@ public class SplashActivity extends AppCompatActivity implements
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
-        if(FirebaseAuth.getInstance().getCurrentUser()!=null)
-        {   Thread T1=new Thread(new Runnable() {
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
+            Thread T1 = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -166,20 +162,18 @@ public class SplashActivity extends AppCompatActivity implements
                 }
             });
             T1.start();
-            startActivity(new Intent(SplashActivity.this,MainActivity.class));
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
             finish();
-        }
-        else
-        {   AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        } else {
+            AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
             mAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (!task.isSuccessful()) {
                         Log.e("TAG", "Credential:", task.getException());
                         Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {   Thread T1=new Thread(new Runnable() {
+                    } else {
+                        Thread T1 = new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 try {
@@ -190,7 +184,7 @@ public class SplashActivity extends AppCompatActivity implements
                             }
                         });
                         T1.start();
-                        startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                        startActivity(new Intent(SplashActivity.this, MainActivity.class));
                         finish();
                     }
                 }

@@ -13,7 +13,8 @@ import as.knowyouropinion.R;
 import as.knowyouropinion.data.QuestionContract;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 28/1/17.
  * </p>
  */
@@ -37,7 +38,7 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
     public void onBindViewHolder(final ViewHolder holder, final Cursor cursor) {
         holder.imageView.setImageResource(R.mipmap.ic_launcher);
         holder.imageView.setContentDescription(cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QUES)));
-        String text = context.getString(R.string.label_qno) + 
+        String text = context.getString(R.string.label_qno) +
                 cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QNO));
         holder.quesNo.setText(text);
         holder.question.setText(cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QUES)));
@@ -47,22 +48,26 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
         int C = cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3V));
         int D = cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4V));
         int match = 0;
-        switch(opt)
-        {   case 1:   match = A;
-                        break;
+        switch (opt) {
+            case 1:
+                match = A;
+                break;
 
-            case 2:   match = B;
-                        break;
+            case 2:
+                match = B;
+                break;
 
-            case 3:   match = C;
-                        break;
+            case 3:
+                match = C;
+                break;
 
-            case 4:   match = D;
-                        break;
+            case 4:
+                match = D;
+                break;
 
         }
         int total = A + B + C + D;
-        text = ((match*100)/total)+context.getString(R.string.label_ppl_think);
+        text = ((match * 100) / total) + context.getString(R.string.label_ppl_think);
         holder.peeps.setText(text);
     }
 
@@ -71,14 +76,14 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
         return super.getItemCount();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder
-    {   View itemView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        View itemView;
         CircleImageView imageView;
         AppCompatTextView question, peeps, quesNo;
 
         ViewHolder(View itemView) {
             super(itemView);
-            this.itemView=itemView;
+            this.itemView = itemView;
             Typeface medium = Typeface.createFromAsset(context.getResources().getAssets(), "fonts/Roboto-Medium.ttf");
             quesNo = (AppCompatTextView) itemView.findViewById(R.id.questionNo);
             question = (AppCompatTextView) itemView.findViewById(R.id.question);

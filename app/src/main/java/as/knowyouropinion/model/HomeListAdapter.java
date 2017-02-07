@@ -19,24 +19,25 @@ import java.util.ArrayList;
 import as.knowyouropinion.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 11/01/2017.
  * </p>
  */
 
-public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder>
-{   private static final int TYPE_ITEM = 1;
+public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder> {
+    private static final int TYPE_ITEM = 1;
     private Context context;
     private ArrayList<HomeQuestionData> ListData;
 
-    public HomeListAdapter(ArrayList<HomeQuestionData> ListData, Context context)
-    {   this.ListData = ListData;
+    public HomeListAdapter(ArrayList<HomeQuestionData> ListData, Context context) {
+        this.ListData = ListData;
         this.context = context;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.question_list_item,parent,false);
+        View v = LayoutInflater.from(context).inflate(R.layout.question_list_item, parent, false);
         return new ViewHolder(v);
     }
 
@@ -44,9 +45,9 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     @SuppressLint("SetTextI18n")
     public void onBindViewHolder(ViewHolder holder, int position) {
         HomeQuestionData data = ListData.get(position);
-        holder.quesNo.setText(context.getResources().getString(R.string.label_qno)+data.getQuesNo());
+        holder.quesNo.setText(context.getResources().getString(R.string.label_qno) + data.getQuesNo());
         holder.question.setText(data.getQuestion());
-        String text=data.getPeeps()+context.getResources().getString(R.string.label_ppl_ans);
+        String text = data.getPeeps() + context.getResources().getString(R.string.label_ppl_ans);
         holder.peeps.setText(text);
         holder.indicator.setContentDescription(data.getQuestion());
         holder.indicator.setBackgroundColor(ListData.get(position).getColor());
@@ -63,8 +64,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         return TYPE_ITEM;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder
-    {   View itemView;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        View itemView;
 
         CircleImageView imageView;
         AppCompatTextView question, peeps, quesNo;
@@ -72,7 +73,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
         ViewHolder(View itemView) {
             super(itemView);
-            this.itemView=itemView;
+            this.itemView = itemView;
             Typeface medium = Typeface.createFromAsset(context.getResources().getAssets(), "fonts/Roboto-Medium.ttf");
             quesNo = (AppCompatTextView) itemView.findViewById(R.id.questionNo);
             question = (AppCompatTextView) itemView.findViewById(R.id.question);
@@ -85,19 +86,19 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         }
     }
 
-    public void notifyQuestionIsVoted(final int position)
-    {   ListData.get(position).setColor(Color.RED);
+    public void notifyQuestionIsVoted(final int position) {
+        ListData.get(position).setColor(Color.RED);
         notifyItemChanged(position);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(ListData.size()>position) {
+                if (ListData.size() > position) {
                     ListData.get(position).setColor(Color.parseColor("#616161"));
                     notifyItemChanged(position);
                 }
             }
-        },1000);
+        }, 1000);
     }
 
     @Override

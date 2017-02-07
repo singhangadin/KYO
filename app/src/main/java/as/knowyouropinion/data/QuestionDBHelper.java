@@ -3,9 +3,11 @@ package as.knowyouropinion.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import as.knowyouropinion.data.QuestionContract.QuestionEntry;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 23/1/17.
  * </p>
  */
@@ -24,11 +26,11 @@ public class QuestionDBHelper extends SQLiteOpenHelper {
         final String SQL_CREATE_QUESTION_TABLE = "CREATE TABLE " + QuestionEntry.TABLE_NAME + " (" +
                 QuestionEntry._ID + " INTEGER PRIMARY KEY," +
                 QuestionEntry.COLUMN_QNO + " INTEGER UNIQUE NOT NULL, " +
-                QuestionEntry.COLUMN_QUES+ " TEXT NOT NULL, " +
-                QuestionEntry.COLUMN_ANS1+ " TEXT NOT NULL, " +
-                QuestionEntry.COLUMN_ANS2+ " TEXT NOT NULL, " +
-                QuestionEntry.COLUMN_ANS3+ " TEXT NOT NULL, " +
-                QuestionEntry.COLUMN_ANS4+ " TEXT NOT NULL, " +
+                QuestionEntry.COLUMN_QUES + " TEXT NOT NULL, " +
+                QuestionEntry.COLUMN_ANS1 + " TEXT NOT NULL, " +
+                QuestionEntry.COLUMN_ANS2 + " TEXT NOT NULL, " +
+                QuestionEntry.COLUMN_ANS3 + " TEXT NOT NULL, " +
+                QuestionEntry.COLUMN_ANS4 + " TEXT NOT NULL, " +
                 QuestionEntry.COLUMN_ANS1V + " INTEGER NOT NULL, " +
                 QuestionEntry.COLUMN_ANS2V + " INTEGER NOT NULL, " +
                 QuestionEntry.COLUMN_ANS3V + " INTEGER NOT NULL, " +

@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 7/2/17.
  * </p>
  */

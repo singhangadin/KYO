@@ -38,17 +38,18 @@ import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_CHOI
 import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_QNO;
 import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_QUES;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 6/2/17.
  * </p>
  */
 
 public class ResultActivity extends AppCompatActivity {
-    private AppCompatRadioButton A, B, C, D;
-    private AppCompatTextView Ques;
+    private AppCompatRadioButton a, b, c, d;
+    private AppCompatTextView ques;
     private String question;
-    private String Sa = "",Sb = "",Sc = "",Sd = "";
-    private long Ia,Ib,Ic,Id, total = 0;
+    private String sA = "", sB = "", sC = "", sD = "";
+    private long iA, iB, iC, iD, total = 0;
     private int qno;
     private BarGraphView barGraphView;
     private InterstitialAd mInterstitialAd;
@@ -60,20 +61,20 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         qno = getIntent().getExtras().getInt("qno");
 
-        barGraphView = (BarGraphView)findViewById(R.id.barGraph);
-        if(barGraphView!=null)
-        {   barGraphView.setVisibility(View.VISIBLE);
+        barGraphView = (BarGraphView) findViewById(R.id.barGraph);
+        if (barGraphView != null) {
+            barGraphView.setVisibility(View.VISIBLE);
         }
-        Ques = (AppCompatTextView)findViewById(R.id.question);
-        A = (AppCompatRadioButton)findViewById(R.id.A);
-        B = (AppCompatRadioButton)findViewById(R.id.B);
-        C = (AppCompatRadioButton)findViewById(R.id.C);
-        D = (AppCompatRadioButton)findViewById(R.id.D);
+        ques = (AppCompatTextView) findViewById(R.id.question);
+        a = (AppCompatRadioButton) findViewById(R.id.A);
+        b = (AppCompatRadioButton) findViewById(R.id.B);
+        c = (AppCompatRadioButton) findViewById(R.id.C);
+        d = (AppCompatRadioButton) findViewById(R.id.D);
 
         FloatingActionButton markFab = (FloatingActionButton) findViewById(R.id.markFab);
         markFab.hide();
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-        toolbar.setTitle(getResources().getString(R.string.label_qno)+qno);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(getResources().getString(R.string.label_qno) + qno);
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,55 +84,59 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         Cursor data = getContentResolver().query(
-            QuestionContract.QuestionEntry.buildQuestionNo(qno+""),
-            null,
-            null,
-            null,
-            null);
+                QuestionContract.QuestionEntry.buildQuestionNo(qno + ""),
+                null,
+                null,
+                null,
+                null);
 
-        if(data!=null) {
+        if (data != null) {
             data.moveToFirst();
             String question = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QUES));
-            Sa = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1));
-            Sb = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2));
-            Sc = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3));
-            Sd = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4));
-            Ia = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1V));
-            Ib = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2V));
-            Ic = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3V));
-            Id = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4V));
+            sA = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1));
+            sB = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2));
+            sC = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3));
+            sD = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4));
+            iA = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1V));
+            iB = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2V));
+            iC = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3V));
+            iD = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4V));
             choice = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_CHOICE));
 
-            Ques.setText(question);
-            total = Ia + Ib + Ic + Id;
-            if(total == 0)
-            {   total = 1;
+            ques.setText(question);
+            total = iA + iB + iC + iD;
+            if (total == 0) {
+                total = 1;
             }
-            A.setText(Sa+" "+((Ia*100)/total)+getString(R.string.symbol_percentage));
-            B.setText(Sb+" "+((Ib*100)/total)+getString(R.string.symbol_percentage));
-            C.setText(Sc+" "+((Ic*100)/total)+getString(R.string.symbol_percentage));
-            D.setText(Sd+" "+((Id*100)/total)+getString(R.string.symbol_percentage));
+            a.setText(sA + " " + ((iA * 100) / total) + getString(R.string.symbol_percentage));
+            b.setText(sB + " " + ((iB * 100) / total) + getString(R.string.symbol_percentage));
+            c.setText(sC + " " + ((iC * 100) / total) + getString(R.string.symbol_percentage));
+            d.setText(sD + " " + ((iD * 100) / total) + getString(R.string.symbol_percentage));
 
             switch (choice) {
-                case 1: A.performClick();
-                        break;
+                case 1:
+                    a.performClick();
+                    break;
 
-                case 2: B.performClick();
-                        break;
+                case 2:
+                    b.performClick();
+                    break;
 
-                case 3: C.performClick();
-                        break;
+                case 3:
+                    c.performClick();
+                    break;
 
-                case 4: D.performClick();
-                        break;
+                case 4:
+                    d.performClick();
+                    break;
             }
-            if(barGraphView!=null) {
+            if (barGraphView != null) {
                 barGraphView.setAnswer(choice);
             }
-            A.setClickable(false);
-            B.setClickable(false);
-            C.setClickable(false);
-            D.setClickable(false);
+            a.setClickable(false);
+            b.setClickable(false);
+            c.setClickable(false);
+            d.setClickable(false);
             data.close();
         }
 
@@ -148,15 +153,15 @@ public class ResultActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference answer = database.getReference("Answers").child(qno +"");
-        DatabaseReference questn = database.getReference("Questions").child(qno +"");
-        DatabaseReference optn = database.getReference("Options").child(qno +"");
+        DatabaseReference answer = database.getReference("Answers").child(qno + "");
+        DatabaseReference questn = database.getReference("Questions").child(qno + "");
+        DatabaseReference optn = database.getReference("Options").child(qno + "");
 
         questn.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 question = dataSnapshot.getValue().toString();
-                Ques.setText(question);
+                ques.setText(question);
             }
 
             @Override
@@ -170,14 +175,14 @@ public class ResultActivity extends AppCompatActivity {
             @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, String> HM = (HashMap<String, String>) dataSnapshot.getValue();
-                Sa = HM.get("a");
-                Sb = HM.get("b");
-                Sc = HM.get("c");
-                Sd = HM.get("d");
-                A.setText(Sa+" "+((Ia*100)/total)+getString(R.string.symbol_percentage));
-                B.setText(Sb+" "+((Ib*100)/total)+getString(R.string.symbol_percentage));
-                C.setText(Sc+" "+((Ic*100)/total)+getString(R.string.symbol_percentage));
-                D.setText(Sd+" "+((Id*100)/total)+getString(R.string.symbol_percentage));
+                sA = HM.get("a");
+                sB = HM.get("b");
+                sC = HM.get("c");
+                sD = HM.get("d");
+                a.setText(sA + " " + ((iA * 100) / total) + getString(R.string.symbol_percentage));
+                b.setText(sB + " " + ((iB * 100) / total) + getString(R.string.symbol_percentage));
+                c.setText(sC + " " + ((iC * 100) / total) + getString(R.string.symbol_percentage));
+                d.setText(sD + " " + ((iD * 100) / total) + getString(R.string.symbol_percentage));
             }
 
             @Override
@@ -191,39 +196,39 @@ public class ResultActivity extends AppCompatActivity {
             @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Long> HM = (HashMap<String, Long>) dataSnapshot.getValue();
-                Ia = HM.get("a");
-                Ib = HM.get("b");
-                Ic = HM.get("c");
-                Id = HM.get("d");
-                total = Ia + Ib + Ic + Id;
-                if(total == 0)
-                {   total = 1;
+                iA = HM.get("a");
+                iB = HM.get("b");
+                iC = HM.get("c");
+                iD = HM.get("d");
+                total = iA + iB + iC + iD;
+                if (total == 0) {
+                    total = 1;
                 }
-                short percA = (short) ((Ia*100)/total);
-                short percB = (short) ((Ib*100)/total);
-                short percC = (short) ((Ic*100)/total);
-                short percD = (short) ((Id*100)/total);
-                A.setText(Sa+" "+percA+getString(R.string.symbol_percentage));
-                B.setText(Sb+" "+percB+getString(R.string.symbol_percentage));
-                C.setText(Sc+" "+percC+getString(R.string.symbol_percentage));
-                D.setText(Sd+" "+percD+getString(R.string.symbol_percentage));
-                if(barGraphView!=null)
-                {   barGraphView.setPerc(percA, percB, percC, percD);
+                short percA = (short) ((iA * 100) / total);
+                short percB = (short) ((iB * 100) / total);
+                short percC = (short) ((iC * 100) / total);
+                short percD = (short) ((iD * 100) / total);
+                a.setText(sA + " " + percA + getString(R.string.symbol_percentage));
+                b.setText(sB + " " + percB + getString(R.string.symbol_percentage));
+                c.setText(sC + " " + percC + getString(R.string.symbol_percentage));
+                d.setText(sD + " " + percD + getString(R.string.symbol_percentage));
+                if (barGraphView != null) {
+                    barGraphView.setPerc(percA, percB, percC, percD);
                 }
                 ContentValues questionValues = new ContentValues();
                 questionValues.put(COLUMN_QNO, qno);
                 questionValues.put(COLUMN_QUES, question);
-                questionValues.put(COLUMN_ANS1, Sa);
-                questionValues.put(COLUMN_ANS2, Sb);
-                questionValues.put(COLUMN_ANS3, Sc);
-                questionValues.put(COLUMN_ANS4, Sd);
-                questionValues.put(COLUMN_ANS1V, Ia);
-                questionValues.put(COLUMN_ANS2V, Ib);
-                questionValues.put(COLUMN_ANS3V, Ic);
-                questionValues.put(COLUMN_ANS4V, Id);
+                questionValues.put(COLUMN_ANS1, sA);
+                questionValues.put(COLUMN_ANS2, sB);
+                questionValues.put(COLUMN_ANS3, sC);
+                questionValues.put(COLUMN_ANS4, sD);
+                questionValues.put(COLUMN_ANS1V, iA);
+                questionValues.put(COLUMN_ANS2V, iB);
+                questionValues.put(COLUMN_ANS3V, iC);
+                questionValues.put(COLUMN_ANS4V, iD);
                 questionValues.put(COLUMN_CHOICE, (choice));
                 getContentResolver().update(
-                        QuestionContract.QuestionEntry.buildQuestionNo(qno+""),
+                        QuestionContract.QuestionEntry.buildQuestionNo(qno + ""),
                         questionValues,
                         null,
                         null);
@@ -239,7 +244,7 @@ public class ResultActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        if (mInterstitialAd.isLoaded()&& !Utility.adShown) {
+        if (mInterstitialAd.isLoaded() && !Utility.adShown) {
             mInterstitialAd.show();
             Utility.adShown = true;
         }

@@ -13,13 +13,14 @@ import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
 import static junit.framework.Assert.assertTrue;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 23/1/17.
  * </p>
  */
 
 public class TestUtilities {
-    private static String LOG_TAG=ContentProvidersTest.class.getName();
+    private static String LOG_TAG = ContentProvidersTest.class.getName();
 
     static void validateCursor(String error, Cursor valueCursor, ContentValues expectedValues) {
         assertTrue("Empty cursor returned. " + error, valueCursor.moveToFirst());
@@ -32,7 +33,7 @@ public class TestUtilities {
         for (Map.Entry<String, Object> entry : valueSet) {
             String columnName = entry.getKey();
             int idx = valueCursor.getColumnIndex(columnName);
-            Log.e(LOG_TAG,columnName+":"+entry.getValue().toString());
+            Log.e(LOG_TAG, columnName + ":" + entry.getValue().toString());
             assertFalse("Column '" + columnName + "' not found. " + error, idx == -1);
             String expectedValue = entry.getValue().toString();
             assertEquals("Value '" + entry.getValue().toString() +
@@ -57,6 +58,7 @@ public class TestUtilities {
 
         return questionValues;
     }
+
     static ContentValues createRandomValues() {
         ContentValues questionValues = new ContentValues();
         questionValues.put(QuestionContract.QuestionEntry.COLUMN_QUES, "HFSFGSSGFSG");

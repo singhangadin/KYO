@@ -2,13 +2,14 @@ package as.knowyouropinion.model;
 
 import android.graphics.Color;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 25/1/17.
  * </p>
  */
 
-public class HomeQuestionData
-{   private String question, imgUrl;
+public class HomeQuestionData {
+    private String question, imgUrl;
     private int quesNo;
     private long peeps;
     private int color;

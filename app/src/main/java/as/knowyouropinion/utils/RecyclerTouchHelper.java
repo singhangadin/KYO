@@ -6,7 +6,8 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 25/1/17.
  * </p>
  */
@@ -29,8 +30,8 @@ public class RecyclerTouchHelper implements RecyclerView.OnItemTouchListener {
         View child = rv.findChildViewUnder(e.getX(), e.getY());
         return
                 child != null && gestureDetector.onTouchEvent(e) &&
-                onRecyclerClickListener != null &&
-                onRecyclerClickListener.onClick(child, rv.getChildAdapterPosition(child));
+                        onRecyclerClickListener != null &&
+                        onRecyclerClickListener.onClick(child, rv.getChildAdapterPosition(child));
     }
 
     @Override

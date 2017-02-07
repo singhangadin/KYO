@@ -2,7 +2,8 @@ package as.knowyouropinion.utils;
 
 import android.view.View;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 25/1/17.
  * </p>
  */

@@ -11,7 +11,8 @@ import as.knowyouropinion.R;
 import as.knowyouropinion.ResultActivity;
 import as.knowyouropinion.data.QuestionContract;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 28/1/17.
  * </p>
  */
@@ -46,7 +47,7 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                         null,
                         null,
                         null,
-                        QuestionContract.QuestionEntry.COLUMN_QNO+" asc");
+                        QuestionContract.QuestionEntry.COLUMN_QNO + " asc");
                 Binder.restoreCallingIdentity(identityToken);
             }
 
@@ -70,7 +71,7 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                     return null;
                 }
                 RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget_list_item);
-                views.setTextViewText(R.id.questionNo,getResources().getString(R.string.label_qno)+ data.getString(INDEX_QUES_NO));
+                views.setTextViewText(R.id.questionNo, getResources().getString(R.string.label_qno) + data.getString(INDEX_QUES_NO));
                 views.setTextViewText(R.id.question, data.getString(INDEX_QUES));
 
                 int opt = data.getInt(INDEX_CHOICE);
@@ -79,22 +80,26 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                 int C = data.getInt(INDEX_ANS3V);
                 int D = data.getInt(INDEX_ANS4V);
                 int match = 0;
-                switch(opt)
-                {   case 1: match = A;
-                            break;
+                switch (opt) {
+                    case 1:
+                        match = A;
+                        break;
 
-                    case 2: match = B;
-                            break;
+                    case 2:
+                        match = B;
+                        break;
 
-                    case 3: match = C;
-                            break;
+                    case 3:
+                        match = C;
+                        break;
 
-                    case 4: match = D;
-                            break;
+                    case 4:
+                        match = D;
+                        break;
 
                 }
                 int total = A + B + C + D;
-                String text = ((match*100)/total)+getString(R.string.label_ppl_think);
+                String text = ((match * 100) / total) + getString(R.string.label_ppl_think);
                 views.setTextViewText(R.id.peeps, text);
 
                 Intent intent = new Intent(getApplicationContext(), ResultActivity.class);

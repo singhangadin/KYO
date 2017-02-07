@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'guest'
             keyPassword 'password'
-            storeFile file('/home/localhost/Android/AndroidStudioProjects/KnowYourOpinion/keystore.jks')
+            storeFile file('./keystore.jks')
             storePassword 'password'
         }
     }
@@ -35,7 +35,7 @@ android {
 
     productFlavors {
     }
-    
+
     return void
 }
 

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -21,7 +20,7 @@
             android:layout_height="@dimen/question_icon_size"
             android:layout_gravity="center_vertical"
             android:layout_margin="@dimen/list_item_margin"
-            tools:src="@mipmap/ic_launcher"/>
+            tools:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -40,7 +39,7 @@
                 android:textColor="#000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Question No. 1"/>
+                tools:text="Question No. 1" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/question"
@@ -49,7 +48,7 @@
                 android:textColor="#000000"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="What tastes better with pizza and any other random options also?"/>
+                tools:text="What tastes better with pizza and any other random options also?" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/peeps"
@@ -66,7 +65,7 @@
             android:layout_width="20dp"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent"
-            android:background="#616161"/>
+            android:background="#616161" />
 
     </LinearLayout>
 
@@ -74,5 +73,5 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="#EEEFFF"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

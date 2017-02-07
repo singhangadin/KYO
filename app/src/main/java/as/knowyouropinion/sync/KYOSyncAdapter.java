@@ -32,33 +32,33 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
     public static final String ACTION_DATA_UPDATED = "as.knowyouropinion.DATA_UPDATED";
 
     private static final int SYNC_INTERVAL = 60 * 10;
-    private static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+    private static final int SYNC_FLEXTIME = SYNC_INTERVAL / 3;
 
     KYOSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
-        this.context=context;
+        this.context = context;
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public void onPerformSync(final Account account, Bundle extras, final String authority, ContentProviderClient provider, SyncResult syncResult) {
-        Log.e("SYNC","Sync Performed");
+        Log.e("SYNC", "Sync Performed");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        String email = preferences.getString("EMAIL","Email");
-        String userID = email.split("@")[0].replace(".",",");
+        String email = preferences.getString("EMAIL", "Email");
+        String userID = email.split("@")[0].replace(".", ",");
         final DatabaseReference user = database.getReference("Users").child(userID);
         user.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 context.getContentResolver().delete(
-                    QuestionContract.QuestionEntry.CONTENT_URI,
-                    null,
-                    null
+                        QuestionContract.QuestionEntry.CONTENT_URI,
+                        null,
+                        null
                 );
                 Object obj = dataSnapshot.getValue();
-                if(obj instanceof ArrayList) {
+                if (obj instanceof ArrayList) {
                     ArrayList<String> ans = (ArrayList<String>) dataSnapshot.getValue();
                     for (int i = 0; i < ans.size(); i++) {
                         String str = ans.get(i);
@@ -66,11 +66,10 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
                             new FbDBInsertThread(context, i, str, database).start();
                         }
                     }
-                }
-                else if(obj instanceof HashMap)
-                {   HashMap<String, String> HM = (HashMap<String, String>)dataSnapshot.getValue();
-                    for(String key:HM.keySet())
-                    {   new FbDBInsertThread(context, Integer.parseInt(key), HM.get(key), database).start();
+                } else if (obj instanceof HashMap) {
+                    HashMap<String, String> HM = (HashMap<String, String>) dataSnapshot.getValue();
+                    for (String key : HM.keySet()) {
+                        new FbDBInsertThread(context, Integer.parseInt(key), HM.get(key), database).start();
                     }
                 }
             }
@@ -90,8 +89,7 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
                     setSyncAdapter(account, authority).
                     setExtras(new Bundle()).build();
             ContentResolver.requestSync(request);
-        }
-        else {
+        } else {
             ContentResolver.addPeriodicSync(account, authority, new Bundle(), syncInterval);
         }
     }
@@ -106,7 +104,7 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
     private static Account getSyncAccount(Context context) {
         AccountManager accountManager = (AccountManager) context.getSystemService(Context.ACCOUNT_SERVICE);
         Account newAccount = new Account(context.getString(R.string.app_name), context.getString(R.string.sync_account_type));
-        if ( null == accountManager.getPassword(newAccount) ) {
+        if (null == accountManager.getPassword(newAccount)) {
             if (!accountManager.addAccountExplicitly(newAccount, "", null)) {
                 return null;
             }

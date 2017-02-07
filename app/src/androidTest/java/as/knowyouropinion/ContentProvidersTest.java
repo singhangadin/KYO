@@ -22,7 +22,8 @@ import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_QNO;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 23/1/17.
  * </p>
  */
@@ -32,8 +33,8 @@ public class ContentProvidersTest {
     private Context mContext = InstrumentationRegistry.getTargetContext();
 
     @Before
-    public void performCleanUp()
-    {   deleteAllRecords();
+    public void performCleanUp() {
+        deleteAllRecords();
     }
 
     public void deleteAllRecordsFromProvider() {
@@ -50,7 +51,7 @@ public class ContentProvidersTest {
                 null,
                 null
         );
-        assert cursor!=null;
+        assert cursor != null;
         assertEquals("Error: Records not deleted from Question table during delete", 0, cursor.getCount());
         cursor.close();
     }
@@ -73,11 +74,10 @@ public class ContentProvidersTest {
         ComponentName componentName = new ComponentName(mContext.getPackageName(), QuestionProvider.class.getName());
         try {
             ProviderInfo providerInfo = pm.getProviderInfo(componentName, 0);
-            assertEquals(   "Error: QuestionProvider registered with authority: " + providerInfo.authority +
+            assertEquals("Error: QuestionProvider registered with authority: " + providerInfo.authority +
                             " instead of authority: " + QuestionContract.CONTENT_AUTHORITY,
-                            providerInfo.authority, QuestionContract.CONTENT_AUTHORITY);
-        }
-        catch (PackageManager.NameNotFoundException e) {
+                    providerInfo.authority, QuestionContract.CONTENT_AUTHORITY);
+        } catch (PackageManager.NameNotFoundException e) {
             assertTrue("Error: QuestionProvider not registered at " + mContext.getPackageName(), false);
         }
     }
@@ -144,7 +144,7 @@ public class ContentProvidersTest {
     }
 
     @Test
-    public void singleRecordDeleteTest(){
+    public void singleRecordDeleteTest() {
         QuestionDBHelper dbHelper = new QuestionDBHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
@@ -167,26 +167,26 @@ public class ContentProvidersTest {
                 null,
                 null
         );
-        assert cursor!=null;
+        assert cursor != null;
         assertEquals("Error: Records not deleted from Question table during delete", 2, cursor.getCount());
         cursor.close();
     }
 
     @Test
-    public void checkDataFromQno()
-    {   QuestionDBHelper dbHelper = new QuestionDBHelper(mContext);
+    public void checkDataFromQno() {
+        QuestionDBHelper dbHelper = new QuestionDBHelper(mContext);
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         ContentValues questionValues1 = TestUtilities.createQuestionValues(1);
         db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues1);
         Cursor cursor = mContext.getContentResolver().query(
-            QuestionContract.QuestionEntry.buildQuestionNo(Integer.toString(1)),
-            new String[]{COLUMN_QNO},
-            null,
-            null,
-            null);
+                QuestionContract.QuestionEntry.buildQuestionNo(Integer.toString(1)),
+                new String[]{COLUMN_QNO},
+                null,
+                null,
+                null);
 
-        assertTrue("Unable to Query QuestionEntry into the Database", cursor.getCount() !=0);
+        assertTrue("Unable to Query QuestionEntry into the Database", cursor.getCount() != 0);
 
         if (cursor != null) {
             cursor.close();

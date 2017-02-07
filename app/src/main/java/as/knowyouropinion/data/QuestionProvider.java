@@ -10,7 +10,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 23/1/17.
  * </p>
  */
@@ -24,7 +25,7 @@ public class QuestionProvider extends ContentProvider {
     static final int QUESTION = 101;
     private static final SQLiteQueryBuilder sQuestionQueryBuilder;
 
-    static{
+    static {
         sQuestionQueryBuilder = new SQLiteQueryBuilder();
         sQuestionQueryBuilder.setTables(QuestionContract.QuestionEntry.TABLE_NAME);
     }
@@ -65,19 +66,19 @@ public class QuestionProvider extends ContentProvider {
         Cursor retCursor;
         switch (sUriMatcher.match(uri)) {
             case QUESTION_WITH_QNO: {
-                retCursor = getQuestionFromQuestionNo(uri,projection,sortOrder);
+                retCursor = getQuestionFromQuestionNo(uri, projection, sortOrder);
                 break;
             }
             case QUESTION: {
-                           retCursor = mOpenHelper.getReadableDatabase().query(
-                            QuestionContract.QuestionEntry.TABLE_NAME,
-                            projection,
-                            selection,
-                            selectionArgs,
-                            null,
-                            null,
-                            sortOrder
-                    );
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        QuestionContract.QuestionEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
                 break;
             }
 
@@ -97,7 +98,7 @@ public class QuestionProvider extends ContentProvider {
         switch (match) {
             case QUESTION: {
                 long _id = db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, values);
-                if ( _id > 0 )
+                if (_id > 0)
                     returnUri = QuestionContract.QuestionEntry.buildQuestionUri(_id);
                 else
                     throw new android.database.SQLException("Failed to insert row into " + uri);
@@ -115,7 +116,7 @@ public class QuestionProvider extends ContentProvider {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         int rowsDeleted;
-        if ( null == selection ) selection = "1";
+        if (null == selection) selection = "1";
         switch (match) {
             case QUESTION:
                 rowsDeleted = db.delete(
@@ -125,9 +126,9 @@ public class QuestionProvider extends ContentProvider {
             case QUESTION_WITH_QNO:
                 rowsDeleted = db.delete(
                         QuestionContract.QuestionEntry.TABLE_NAME,
-                        QuestionContract.QuestionEntry.TABLE_NAME+"."+
-                        QuestionContract.QuestionEntry.COLUMN_QNO+"=?",
-                        new String[]{""+QuestionContract.QuestionEntry.getQuestionNoFromURI(uri)});
+                        QuestionContract.QuestionEntry.TABLE_NAME + "." +
+                                QuestionContract.QuestionEntry.COLUMN_QNO + "=?",
+                        new String[]{"" + QuestionContract.QuestionEntry.getQuestionNoFromURI(uri)});
                 break;
 
             default:
@@ -157,9 +158,9 @@ public class QuestionProvider extends ContentProvider {
             case QUESTION_WITH_QNO:
                 rowsUpdated = db.update(QuestionContract.QuestionEntry.TABLE_NAME,
                         values,
-                        QuestionContract.QuestionEntry.TABLE_NAME+"."+
-                        QuestionContract.QuestionEntry.COLUMN_QNO+"=?",
-                        new String[]{""+QuestionContract.QuestionEntry.getQuestionNoFromURI(uri)});
+                        QuestionContract.QuestionEntry.TABLE_NAME + "." +
+                                QuestionContract.QuestionEntry.COLUMN_QNO + "=?",
+                        new String[]{"" + QuestionContract.QuestionEntry.getQuestionNoFromURI(uri)});
                 break;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -171,7 +172,7 @@ public class QuestionProvider extends ContentProvider {
     }
 
     @Override
-    public int bulkInsert(@NonNull Uri uri,@NonNull ContentValues[] values) {
+    public int bulkInsert(@NonNull Uri uri, @NonNull ContentValues[] values) {
         final SQLiteDatabase db = mOpenHelper.getWritableDatabase();
         final int match = sUriMatcher.match(uri);
         switch (match) {
@@ -200,8 +201,8 @@ public class QuestionProvider extends ContentProvider {
         int ques_no = QuestionContract.QuestionEntry.getQuestionNoFromURI(uri);
         return sQuestionQueryBuilder.query(mOpenHelper.getReadableDatabase(),
                 projection,
-                QuestionContract.QuestionEntry.TABLE_NAME+"."+
-                QuestionContract.QuestionEntry.COLUMN_QNO+" = ? ",
+                QuestionContract.QuestionEntry.TABLE_NAME + "." +
+                        QuestionContract.QuestionEntry.COLUMN_QNO + " = ? ",
                 new String[]{Integer.toString(ques_no)},
                 null,
                 null,

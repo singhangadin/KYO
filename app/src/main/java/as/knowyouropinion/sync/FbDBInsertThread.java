@@ -16,7 +16,8 @@ import as.knowyouropinion.data.QuestionContract;
 import as.knowyouropinion.data.QuestionDBHelper;
 import as.knowyouropinion.utils.Utility;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 28/1/17.
  * </p>
  */
@@ -33,9 +34,9 @@ class FbDBInsertThread extends Thread {
         questionValues = new ContentValues();
         QuestionDBHelper dbHelper = new QuestionDBHelper(context);
         db = dbHelper.getWritableDatabase();
-        this.i=i;
-        this.answer=answer;
-        this.database=database;
+        this.i = i;
+        this.answer = answer;
+        this.database = database;
         this.context = context;
     }
 
@@ -43,21 +44,21 @@ class FbDBInsertThread extends Thread {
     public void run() {
         super.run();
         questionValues.put(QuestionContract.QuestionEntry.COLUMN_QNO, i);
-        questionValues.put(QuestionContract.QuestionEntry.COLUMN_CHOICE, (((int)answer.charAt(0)-(int)'a')+1));
+        questionValues.put(QuestionContract.QuestionEntry.COLUMN_CHOICE, (((int) answer.charAt(0) - (int) 'a') + 1));
         final boolean[] ques = {false};
         final boolean[] ans = {false};
         final boolean[] opt = {false};
-        DatabaseReference questions = database.getReference("Questions").child(i+"");
-        DatabaseReference options = database.getReference("Options").child(i+"");
-        DatabaseReference answers = database.getReference("Answers").child(i+"");
+        DatabaseReference questions = database.getReference("Questions").child(i + "");
+        DatabaseReference options = database.getReference("Options").child(i + "");
+        DatabaseReference answers = database.getReference("Answers").child(i + "");
         questions.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String question = (String) dataSnapshot.getValue();
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_QUES, question);
                 ques[0] = true;
-                if(opt[0]&&ans[0])
-                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                if (opt[0] && ans[0]) {
+                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                     Utility.updateWidget(context);
                 }
             }
@@ -78,8 +79,8 @@ class FbDBInsertThread extends Thread {
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS3, HM.get("c"));
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS4, HM.get("d"));
                 opt[0] = true;
-                if(ques[0]&&ans[0])
-                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                if (ques[0] && ans[0]) {
+                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                     Utility.updateWidget(context);
                 }
             }
@@ -101,8 +102,8 @@ class FbDBInsertThread extends Thread {
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS4V, HM.get("d"));
 
                 ans[0] = true;
-                if(ques[0]&&opt[0])
-                {   db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
+                if (ques[0] && opt[0]) {
+                    db.insert(QuestionContract.QuestionEntry.TABLE_NAME, null, questionValues);
                     Utility.updateWidget(context);
                 }
             }

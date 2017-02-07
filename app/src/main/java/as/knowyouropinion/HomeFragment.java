@@ -30,7 +30,8 @@ import as.knowyouropinion.model.HomeQuestionData;
 import as.knowyouropinion.utils.OnRecyclerClickListener;
 import as.knowyouropinion.utils.RecyclerTouchHelper;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 23/1/17.
  * </p>
  */
@@ -48,16 +49,16 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home,container,false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         status = (AppCompatTextView) view.findViewById(R.id.status);
-        homeList=(RecyclerView)view.findViewById(R.id.homeList);
+        homeList = (RecyclerView) view.findViewById(R.id.homeList);
         homeQuestionData = new ArrayList<>();
         questionMapper = new TreeMap<>();
         doneKeys = new HashSet<>();
         adapter = new HomeListAdapter(homeQuestionData, context);
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String email = preferences.getString("EMAIL","Email");
-        String userID = email.split("@")[0].replace(".",",");
+        String email = preferences.getString("EMAIL", "Email");
+        String userID = email.split("@")[0].replace(".", ",");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference questions = database.getReference("Questions");
         DatabaseReference answers = database.getReference("Answers");
@@ -68,21 +69,21 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String key = dataSnapshot.getKey();
-                if(key!=null&&!key.equals("null"))
-                {   doneKeys.add(Integer.parseInt(key));
+                if (key != null && !key.equals("null")) {
+                    doneKeys.add(Integer.parseInt(key));
                 }
-                if(questionMapper.containsKey(Integer.parseInt(key)))
-                {   int pos=questionMapper.get(Integer.parseInt(key));
+                if (questionMapper.containsKey(Integer.parseInt(key))) {
+                    int pos = questionMapper.get(Integer.parseInt(key));
                     homeQuestionData.remove(pos);
                     questionMapper.clear();
-                    for(int i=0;i<homeQuestionData.size();i++)
-                    {   questionMapper.put(homeQuestionData.get(i).getQuesNo(), i);
+                    for (int i = 0; i < homeQuestionData.size(); i++) {
+                        questionMapper.put(homeQuestionData.get(i).getQuesNo(), i);
                     }
                     adapter.notifyDataSetChanged();
                 }
-                if(questionMapper.size()==0&&doneKeys.size()!=0)
-                {   homeList.setVisibility(View.INVISIBLE);
-                    if(isAdded()) {
+                if (questionMapper.size() == 0 && doneKeys.size() != 0) {
+                    homeList.setVisibility(View.INVISIBLE);
+                    if (isAdded()) {
                         status.setText(getString(R.string.label_home_comp));
                         status.setVisibility(View.VISIBLE);
                     }
@@ -110,25 +111,24 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 int quesNo = Integer.parseInt(dataSnapshot.getKey());
-                if(questionMapper.containsKey(quesNo))
-                {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
+                if (questionMapper.containsKey(quesNo)) {
+                    HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
                     data.setQuestion(dataSnapshot.getValue().toString());
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
-                }
-                else if(!doneKeys.contains(quesNo))
-                {   HomeQuestionData data = new HomeQuestionData();
+                } else if (!doneKeys.contains(quesNo)) {
+                    HomeQuestionData data = new HomeQuestionData();
                     data.setQuestion(dataSnapshot.getValue().toString());
                     data.setQuesNo(quesNo);
                     addElementToList(data);
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
                 }
-                if(homeList.getVisibility()==View.INVISIBLE)
-                {   homeList.setVisibility(View.VISIBLE);
+                if (homeList.getVisibility() == View.INVISIBLE) {
+                    homeList.setVisibility(View.VISIBLE);
                     status.setVisibility(View.INVISIBLE);
                 }
-                if(questionMapper.size()==0&&doneKeys.size()!=0)
-                {   homeList.setVisibility(View.INVISIBLE);
-                    if(isAdded()) {
+                if (questionMapper.size() == 0 && doneKeys.size() != 0) {
+                    homeList.setVisibility(View.INVISIBLE);
+                    if (isAdded()) {
                         status.setText(getString(R.string.label_home_comp));
                     }
                     status.setVisibility(View.VISIBLE);
@@ -138,8 +138,8 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 int quesNo = Integer.parseInt(dataSnapshot.getKey());
-                if(questionMapper.containsKey(quesNo))
-                {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
+                if (questionMapper.containsKey(quesNo)) {
+                    HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
                     data.setQuestion(dataSnapshot.getValue().toString());
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
                 }
@@ -156,7 +156,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                if(isAdded()) {
+                if (isAdded()) {
                     status.setText(getString(R.string.label_home_dc));
                 }
             }
@@ -169,16 +169,15 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                 int quesNo = Integer.parseInt(dataSnapshot.getKey());
                 HashMap<String, Long> count = (HashMap<String, Long>) dataSnapshot.getValue();
                 long total = 0;
-                for(String key: count.keySet())
-                {   total+=count.get(key);
+                for (String key : count.keySet()) {
+                    total += count.get(key);
                 }
-                if(questionMapper.containsKey(quesNo))
-                {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
+                if (questionMapper.containsKey(quesNo)) {
+                    HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
                     data.setPeeps(total);
                     adapter.notifyItemChanged(questionMapper.get(quesNo));
-                }
-                else if(!doneKeys.contains(quesNo))
-                {   HomeQuestionData data = new HomeQuestionData();
+                } else if (!doneKeys.contains(quesNo)) {
+                    HomeQuestionData data = new HomeQuestionData();
                     data.setQuesNo(quesNo);
                     data.setPeeps(total);
                     addElementToList(data);
@@ -192,11 +191,11 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                 int quesNo = Integer.parseInt(dataSnapshot.getKey());
                 HashMap<String, Long> count = (HashMap<String, Long>) dataSnapshot.getValue();
                 long total = 0;
-                for(String key: count.keySet())
-                {   total+=count.get(key);
+                for (String key : count.keySet()) {
+                    total += count.get(key);
                 }
-                if(questionMapper.containsKey(quesNo)&&!doneKeys.contains(quesNo)&&questionMapper.get(quesNo)<homeQuestionData.size())
-                {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
+                if (questionMapper.containsKey(quesNo) && !doneKeys.contains(quesNo) && questionMapper.get(quesNo) < homeQuestionData.size()) {
+                    HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
                     data.setPeeps(total);
                     adapter.notifyQuestionIsVoted(questionMapper.get(quesNo));
                 }
@@ -223,13 +222,12 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 int i = Integer.parseInt(dataSnapshot.getKey());
                 String link = dataSnapshot.getValue().toString();
-                if(questionMapper.containsKey(i))
-                {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(i));
+                if (questionMapper.containsKey(i)) {
+                    HomeQuestionData data = homeQuestionData.get(questionMapper.get(i));
                     data.setImgUrl(link);
                     adapter.notifyItemChanged(questionMapper.get(i));
-                }
-                else if(!doneKeys.contains(i))
-                {   HomeQuestionData data = new HomeQuestionData();
+                } else if (!doneKeys.contains(i)) {
+                    HomeQuestionData data = new HomeQuestionData();
                     data.setQuesNo(i);
                     data.setImgUrl(link);
                     addElementToList(data);
@@ -273,14 +271,14 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 
     @Override
     public boolean onClick(View child, int position) {
-        Intent intent = new Intent(context,QuizActivity.class);
-        intent.putExtra("qno",homeQuestionData.get(position).getQuesNo());
+        Intent intent = new Intent(context, QuizActivity.class);
+        intent.putExtra("qno", homeQuestionData.get(position).getQuesNo());
         startActivity(intent);
         return false;
     }
 
-    synchronized private void addElementToList(HomeQuestionData data)
-    {   questionMapper.put(data.getQuesNo(),homeQuestionData.size());
+    synchronized private void addElementToList(HomeQuestionData data) {
+        questionMapper.put(data.getQuesNo(), homeQuestionData.size());
         homeQuestionData.add(data);
     }
 }

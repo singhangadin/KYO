@@ -7,7 +7,8 @@ import android.provider.BaseColumns;
 
 import static java.lang.Long.parseLong;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 23/1/17.
  * </p>
  */

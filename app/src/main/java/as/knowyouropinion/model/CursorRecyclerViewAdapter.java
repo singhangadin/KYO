@@ -4,7 +4,8 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 28/1/17.
  * </p>
  */

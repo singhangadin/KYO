@@ -32,13 +32,14 @@ import com.google.firebase.database.ValueEventListener;
 
 import as.knowyouropinion.utils.Utility;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 14/1/17.
  * </p>
  */
 
 public class SignInActivity extends AppCompatActivity implements
-        GoogleApiClient.OnConnectionFailedListener{
+        GoogleApiClient.OnConnectionFailedListener {
 
     private GoogleApiClient mGoogleApiClient;
     private static final int RC_SIGN_IN = 9001;
@@ -109,21 +110,21 @@ public class SignInActivity extends AppCompatActivity implements
             GoogleSignInAccount acct = result.getSignInAccount();
             if (acct != null) {
                 String email = acct.getEmail();
-                SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
-                SharedPreferences.Editor editor=preferences.edit();
-                editor.putString("NAME",acct.getDisplayName());
-                editor.putString("EMAIL",email);
-                editor.putString("PHOTO","https://lh3.googleusercontent.com/"+acct.getPhotoUrl().getPath());
+                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("NAME", acct.getDisplayName());
+                editor.putString("EMAIL", email);
+                editor.putString("PHOTO", "https://lh3.googleusercontent.com/" + acct.getPhotoUrl().getPath());
                 editor.apply();
                 final FirebaseDatabase database = FirebaseDatabase.getInstance();
                 final DatabaseReference users = database.getReference("Users");
-                final String temp = email.split("@")[0].replace(".",",");
+                final String temp = email.split("@")[0].replace(".", ",");
                 final DatabaseReference child = users.child(temp);
                 child.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(!dataSnapshot.exists())
-                        {   Log.e("TAG","Child doesn't exist");
+                        if (!dataSnapshot.exists()) {
+                            Log.e("TAG", "Child doesn't exist");
                             users.child(temp).setValue("null");
                         }
                     }
@@ -134,7 +135,7 @@ public class SignInActivity extends AppCompatActivity implements
                 });
             }
             firebaseAuthWithGoogle(acct);
-            Thread T1=new Thread(new Runnable() {
+            Thread T1 = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
@@ -145,11 +146,10 @@ public class SignInActivity extends AppCompatActivity implements
                 }
             });
             T1.start();
-        }
-        else {
+        } else {
             Log.e("TAG", "Sign In Failed");
-            if(!Utility.isNetworkAvailable(SignInActivity.this))
-            {   Toast.makeText(getBaseContext(),getString(R.string.label_home_dc),Toast.LENGTH_SHORT).show();
+            if (!Utility.isNetworkAvailable(SignInActivity.this)) {
+                Toast.makeText(getBaseContext(), getString(R.string.label_home_dc), Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -162,9 +162,8 @@ public class SignInActivity extends AppCompatActivity implements
                 if (!task.isSuccessful()) {
                     Log.e("TAG", "Credential:", task.getException());
                     Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
-                }
-                else
-                {   startActivity(new Intent(SignInActivity.this,MainActivity.class));
+                } else {
+                    startActivity(new Intent(SignInActivity.this, MainActivity.class));
                     finish();
                 }
             }
@@ -173,7 +172,7 @@ public class SignInActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.e("TAG","Connection Failed");
+        Log.e("TAG", "Connection Failed");
         Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
     }
 

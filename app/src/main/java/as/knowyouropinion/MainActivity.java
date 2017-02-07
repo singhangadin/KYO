@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -23,7 +22,6 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -45,18 +43,17 @@ public class MainActivity extends AppCompatActivity implements
         OnRecyclerClickListener,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private int ICONS[] = { R.drawable.ic_action_home,
-                            R.drawable.ic_action_answered,
-                            R.drawable.ic_action_log_out};
+    private int ICONS[] = {R.drawable.ic_action_home,
+            R.drawable.ic_action_answered,
+            R.drawable.ic_action_log_out};
 
     private FrameLayout mDrawerLayout;
-    private DrawerLayout Drawer;
+    private DrawerLayout mDrawer;
     private View lastChild = null;
     private int childPos = 0;
-    private boolean doubleBackToExitPressedOnce = false;
     private RecyclerView.Adapter mAdapter;
     private GoogleApiClient mGoogleApiClient;
-    private Toolbar toolbar;
+    private Toolbar mToolbar;
     private String[] TITLES;
 
     @SuppressWarnings("deprecation")
@@ -69,25 +66,25 @@ public class MainActivity extends AppCompatActivity implements
 
         setContentView(R.layout.activity_main);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .requestIdToken(BuildConfig.OAUTH_CLIENT_ID)
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
-                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, googleSignInOptions)
                 .build();
 
         KYOSyncAdapter.initializeSyncAdapter(this);
 
-        SharedPreferences preferences= PreferenceManager.getDefaultSharedPreferences(this);
-        String NAME=preferences.getString("NAME","Name");
-        String EMAIL=preferences.getString("EMAIL","Email");
-        String PROFILE=preferences.getString("PHOTO","null");
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String NAME = preferences.getString("NAME", "Name");
+        String EMAIL = preferences.getString("EMAIL", "Email");
+        String PROFILE = preferences.getString("PHOTO", "null");
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
         mDrawerLayout = (FrameLayout) findViewById(R.id.drawer_layout);
         RecyclerView mRecyclerView = (RecyclerView) findViewById(recyclerView);
         mRecyclerView.setHasFixedSize(true);
@@ -97,9 +94,9 @@ public class MainActivity extends AppCompatActivity implements
         helper.setOnRecyclerClickListener(this);
         mRecyclerView.addOnItemTouchListener(helper);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        Drawer = (DrawerLayout) findViewById(R.id.DrawerLayout);
-        if(Drawer!=null) {
-            ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, Drawer, toolbar, R.string.openDrawer, R.string.closeDrawer) {
+        mDrawer = (DrawerLayout) findViewById(R.id.DrawerLayout);
+        if (mDrawer != null) {
+            ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, mToolbar, R.string.openDrawer, R.string.closeDrawer) {
                 @Override
                 public void onDrawerOpened(View drawerView) {
                     super.onDrawerOpened(drawerView);
@@ -111,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements
                     mAdapter.notifyDataSetChanged();
                 }
             };
-            Drawer.addDrawerListener(mDrawerToggle);
+            mDrawer.addDrawerListener(mDrawerToggle);
             mDrawerToggle.syncState();
         }
         if (savedInstanceState == null) {
@@ -122,37 +119,35 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        if(mGoogleApiClient!=null)
-        {   mGoogleApiClient.connect();
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
         }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        if(mGoogleApiClient!=null&&mGoogleApiClient.isConnected())
-        {   mGoogleApiClient.disconnect();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            mGoogleApiClient.disconnect();
         }
     }
 
 
-
     @Override
     public boolean onClick(View child, int position) {
-        if(Drawer!=null) {
-            Drawer.closeDrawers();
+        if (mDrawer != null) {
+            mDrawer.closeDrawers();
         }
         if (position == 0) {
             return true;
-        }
-        else {
+        } else {
             handleDrawerActions(position - 1);
             if (lastChild != null) {
                 lastChild.setBackgroundColor(Color.parseColor("#111111"));
-                TextView TV = (TextView) lastChild.findViewById(R.id.rowText);
-                TV.setTextColor(Color.parseColor("#DDDDDD"));
-                ImageView Img = (ImageView) lastChild.findViewById(R.id.rowIcon);
-                Img.setImageResource(ICONS[childPos]);
+                TextView textView = (TextView) lastChild.findViewById(R.id.rowText);
+                textView.setTextColor(Color.parseColor("#DDDDDD"));
+                ImageView imageView = (ImageView) lastChild.findViewById(R.id.rowIcon);
+                imageView.setImageResource(ICONS[childPos]);
             }
             child.setBackgroundColor(Color.parseColor("#222222"));
             TextView TV = (TextView) child.findViewById(R.id.rowText);
@@ -164,79 +159,68 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     private void handleDrawerActions(int i) {
-        Fragment frag=null;
-        switch (i)
-        {   case 0: frag=new HomeFragment();
-                    toolbar.setTitle(TITLES[i]);
-                    break;
+        Fragment frag = null;
+        switch (i) {
+            case 0:
+                frag = new HomeFragment();
+                mToolbar.setTitle(TITLES[i]);
+                break;
 
-            case 1: frag=new HistoryFragment();
-                    toolbar.setTitle(TITLES[i]);
-                    break;
+            case 1:
+                frag = new HistoryFragment();
+                mToolbar.setTitle(TITLES[i]);
+                break;
 
-            case 2: AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                    builder.setTitle(getString(R.string.label_logout));
-                    builder.setMessage(R.string.label_dialog_message);
-                    builder.setPositiveButton(R.string.dialog_label_positive, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            FirebaseAuth.getInstance().signOut();
-                            if(mGoogleApiClient.isConnected())
-                                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
-                                    @Override
-                                    public void onResult(@NonNull Status status) {
-                                        if(status.isSuccess())
-                                        {   getContentResolver().delete(
+            case 2:
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle(getString(R.string.label_logout));
+                builder.setMessage(R.string.label_dialog_message);
+                builder.setPositiveButton(R.string.dialog_label_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        FirebaseAuth.getInstance().signOut();
+                        if (mGoogleApiClient.isConnected())
+                            Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                                @Override
+                                public void onResult(@NonNull Status status) {
+                                    if (status.isSuccess()) {
+                                        getContentResolver().delete(
                                                 QuestionContract.QuestionEntry.CONTENT_URI,
                                                 null,
                                                 null
-                                            );
-                                            startActivity(new Intent(MainActivity.this, SignInActivity.class));
-                                            finish();
-                                        }
+                                        );
+                                        startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                                        finish();
                                     }
-                                });
-                        }
-                    });
-                    builder.setNegativeButton(R.string.dialog_label_negative, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    AppCompatDialog dialog = builder.create();
-                    dialog.setCancelable(false);
-                    dialog.show();
-                    break;
+                                }
+                            });
+                    }
+                });
+                builder.setNegativeButton(R.string.dialog_label_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                AppCompatDialog dialog = builder.create();
+                dialog.setCancelable(false);
+                dialog.show();
+                break;
         }
-        if(frag!=null)
-        {   FragmentManager manager=getSupportFragmentManager();
+        if (frag != null) {
+            FragmentManager manager = getSupportFragmentManager();
             FragmentTransaction transaction = manager.beginTransaction();
-            transaction.add(R.id.frame_container,frag);
+            transaction.add(R.id.frame_container, frag);
             transaction.commit();
         }
     }
 
     @Override
     public void onBackPressed() {
-        if (Drawer!=null&&mDrawerLayout!=null&&Drawer.isDrawerOpen(mDrawerLayout)) {
-            Drawer.closeDrawer(mDrawerLayout);
-        }
-        else {
-            if (doubleBackToExitPressedOnce) {
-                super.onBackPressed();
-                return;
-            }
-
-            this.doubleBackToExitPressedOnce = true;
-            Toast.makeText(this, R.string.label_warn_exit, Toast.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-
-                @Override
-                public void run() {
-                    doubleBackToExitPressedOnce=false;
-                }
-            }, 2000);
+        if (mDrawer != null && mDrawerLayout != null && mDrawer.isDrawerOpen(mDrawerLayout)) {
+            mDrawer.closeDrawer(mDrawerLayout);
+        } else {
+            super.onBackPressed();
         }
     }
 

@@ -22,13 +22,14 @@ import as.knowyouropinion.model.HistoryCursorAdapter;
 import as.knowyouropinion.utils.OnRecyclerClickListener;
 import as.knowyouropinion.utils.RecyclerTouchHelper;
 
-/**<p>
+/**
+ * <p>
  * Created by Angad on 23/1/17.
  * </p>
  */
 
 public class HistoryFragment extends Fragment implements
-    LoaderManager.LoaderCallbacks<Cursor> {
+        LoaderManager.LoaderCallbacks<Cursor> {
 
     private Context context;
     private HistoryCursorAdapter mCursorAdapter;
@@ -51,9 +52,9 @@ public class HistoryFragment extends Fragment implements
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_home,container,false);
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
         status = (AppCompatTextView) view.findViewById(R.id.status);
-        recyclerView = (RecyclerView)view. findViewById(R.id.homeList);
+        recyclerView = (RecyclerView) view.findViewById(R.id.homeList);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         mCursorAdapter = new HistoryCursorAdapter(context, null);
         recyclerView.setAdapter(mCursorAdapter);
@@ -65,7 +66,7 @@ public class HistoryFragment extends Fragment implements
                 savedCursor.moveToPosition(position);
                 int qno = savedCursor.getInt(savedCursor.getColumnIndex(QuestionEntry.COLUMN_QNO));
                 Intent intent = new Intent(context, ResultActivity.class);
-                intent.putExtra("qno",qno);
+                intent.putExtra("qno", qno);
                 startActivity(intent);
                 return false;
             }
@@ -91,18 +92,17 @@ public class HistoryFragment extends Fragment implements
                 PROJECTION_MATRIX,
                 null,
                 null,
-                QuestionEntry.COLUMN_QNO+" asc");
+                QuestionEntry.COLUMN_QNO + " asc");
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
         mCursorAdapter.swapCursor(data);
         savedCursor = data;
-        if(data.getCount()==0)
-        {   status.setText(getString(R.string.label_hist_empty));
-        }
-        else
-        {   recyclerView.setVisibility(View.VISIBLE);
+        if (data.getCount() == 0) {
+            status.setText(getString(R.string.label_hist_empty));
+        } else {
+            recyclerView.setVisibility(View.VISIBLE);
             status.setVisibility(View.GONE);
         }
     }
