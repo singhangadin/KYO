@@ -6,9 +6,11 @@
     <string name="sync_account_type">knowyouropinion.as</string>
     <string name="label_loading">Loading…</string>
     <string name="label_qno">"Question No. "</string>
-    <string name="label_ppl_think">" People think like you!"</string>
-    <string name="label_home_loading">Please Wait\n We are loading your Questions!</string>
-    <string name="label_home_empty">All Caught Up!</string>
+    <string name="label_ppl_ans">" People Answered this Question!"</string>
+    <string name="label_ppl_think">"% People Think like you!"</string>
+    <string name="label_home_loading">Please Wait!\n Questions will be loaded as soon as we get Connected!</string>
+    <string name="label_home_comp">All Caught Up!\nLooks like you have answered all of the questions.</string>
+    <string name="label_hist_empty">All Caught Up!\nLooks like you haven\'t answered any of the questions.</string>
     <string name="label_home_dc">Oops, Network seems to be disconnected!</string>
     <string name="label_about">About</string>
     <string name="label_history">My Answers</string>
@@ -16,4 +18,9 @@
     <string name="label_logout">Logout</string>
     <string name="label_warn_exit">Press again to exit</string>
     <string name="err_server_conn">Can\'t connect to server, Please try again!</string>
+    <string name="label_zero_perc">0%</string>
+    <string name="label_two_five_perc">25%</string>
+    <string name="label_fifty_perc">50%</string>
+    <string name="label_seven_five_perc">75%</string>
+    <string name="label_hundred_perc">100%</string>
 </resources>

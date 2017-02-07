@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import as.knowyouropinion.utils.Utility;
+
 /**<p>
  * Created by Angad on 14/1/17.
  * </p>
@@ -100,6 +102,7 @@ public class SignInActivity extends AppCompatActivity implements
         }
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void handleSignInResult(GoogleSignInResult result) {
         Log.e("TAG", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
@@ -147,6 +150,9 @@ public class SignInActivity extends AppCompatActivity implements
         }
         else {
             Log.e("TAG", "Sign In Failed");
+            if(!Utility.isNetworkAvailable(SignInActivity.this))
+            {   Toast.makeText(getBaseContext(),getString(R.string.label_home_dc),Toast.LENGTH_SHORT).show();
+            }
         }
     }
 

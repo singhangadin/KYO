@@ -1,6 +1,7 @@
 package as.knowyouropinion;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,9 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatRadioButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 
+import com.github.angads25.graphs.BarGraphView;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -21,6 +24,18 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.HashMap;
 
 import as.knowyouropinion.data.QuestionContract;
+
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS1;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS1V;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS2;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS2V;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS3;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS3V;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS4;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_ANS4V;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_CHOICE;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_QNO;
+import static as.knowyouropinion.data.QuestionContract.QuestionEntry.COLUMN_QUES;
 
 /**<p>
  * Created by Angad on 6/2/17.
@@ -34,6 +49,9 @@ public class ResultActivity extends AppCompatActivity {
     private String Sa = "",Sb = "",Sc = "",Sd = "";
     private long Ia,Ib,Ic,Id, total = 0;
     private int qno;
+    private BarGraphView barGraphView;
+    private InterstitialAd mInterstitialAd;
+    private int choice;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,6 +59,10 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
         qno = getIntent().getExtras().getInt("qno");
 
+        barGraphView = (BarGraphView)findViewById(R.id.barGraph);
+        if(barGraphView!=null)
+        {   barGraphView.setVisibility(View.VISIBLE);
+        }
         Ques = (AppCompatTextView)findViewById(R.id.question);
         A = (AppCompatRadioButton)findViewById(R.id.A);
         B = (AppCompatRadioButton)findViewById(R.id.B);
@@ -73,24 +95,21 @@ public class ResultActivity extends AppCompatActivity {
             Sb = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2));
             Sc = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3));
             Sd = data.getString(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4));
-            int optionAV = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1V));
-            int optionBV = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2V));
-            int optionCV = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3V));
-            int optionDV = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4V));
-            int choice = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_CHOICE));
-
-            Log.e("DATA",Sa+":"+Sb+":"+Sc+":"+Sd);
+            Ia = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1V));
+            Ib = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2V));
+            Ic = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3V));
+            Id = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4V));
+            choice = data.getInt(data.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_CHOICE));
 
             Ques.setText(question);
-
-            total = optionAV + optionBV + optionCV + optionDV;
+            total = Ia + Ib + Ic + Id;
             if(total == 0)
             {   total = 1;
             }
-            A.setText(Sa+" "+((optionAV*100)/total)+"%");
-            B.setText(Sb+" "+((optionBV*100)/total)+"%");
-            C.setText(Sc+" "+((optionCV*100)/total)+"%");
-            D.setText(Sd+" "+((optionDV*100)/total)+"%");
+            A.setText(Sa+" "+((Ia*100)/total)+"%");
+            B.setText(Sb+" "+((Ib*100)/total)+"%");
+            C.setText(Sc+" "+((Ic*100)/total)+"%");
+            D.setText(Sd+" "+((Id*100)/total)+"%");
 
             switch (choice) {
                 case 1: A.performClick();
@@ -105,12 +124,23 @@ public class ResultActivity extends AppCompatActivity {
                 case 4: D.performClick();
                         break;
             }
+            if(barGraphView!=null) {
+                barGraphView.setAnswer(choice);
+            }
             A.setClickable(false);
             B.setClickable(false);
             C.setClickable(false);
             D.setClickable(false);
             data.close();
         }
+
+
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        AdRequest adRequest = new AdRequest.Builder()
+                .addTestDevice("TEST_DEVICE_ID")
+                .build();
+        mInterstitialAd.loadAd(adRequest);
     }
 
     @Override
@@ -134,8 +164,9 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         optn.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
             @Override
+            @SuppressLint("SetTextI18n")
+            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, String> HM = (HashMap<String, String>) dataSnapshot.getValue();
                 Sa = HM.get("a");
@@ -154,8 +185,9 @@ public class ResultActivity extends AppCompatActivity {
         });
 
         answer.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
             @Override
+            @SuppressLint("SetTextI18n")
+            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Long> HM = (HashMap<String, Long>) dataSnapshot.getValue();
                 Ia = HM.get("a");
@@ -166,15 +198,53 @@ public class ResultActivity extends AppCompatActivity {
                 if(total == 0)
                 {   total = 1;
                 }
-                A.setText(Sa+" "+((Ia*100)/total)+"%");
-                B.setText(Sb+" "+((Ib*100)/total)+"%");
-                C.setText(Sc+" "+((Ic*100)/total)+"%");
-                D.setText(Sd+" "+((Id*100)/total)+"%");
+                short percA = (short) ((Ia*100)/total);
+                short percB = (short) ((Ib*100)/total);
+                short percC = (short) ((Ic*100)/total);
+                short percD = (short) ((Id*100)/total);
+                A.setText(Sa+" "+percA+"%");
+                B.setText(Sb+" "+percB+"%");
+                C.setText(Sc+" "+percC+"%");
+                D.setText(Sd+" "+percD+"%");
+                if(barGraphView!=null)
+                {   barGraphView.setPerc(percA, percB, percC, percD);
+                }
+                ContentValues questionValues = new ContentValues();
+                questionValues.put(COLUMN_QNO, qno);
+                questionValues.put(COLUMN_QUES, question);
+                questionValues.put(COLUMN_ANS1, Sa);
+                questionValues.put(COLUMN_ANS2, Sb);
+                questionValues.put(COLUMN_ANS3, Sc);
+                questionValues.put(COLUMN_ANS4, Sd);
+                questionValues.put(COLUMN_ANS1V, Ia);
+                questionValues.put(COLUMN_ANS2V, Ib);
+                questionValues.put(COLUMN_ANS3V, Ic);
+                questionValues.put(COLUMN_ANS4V, Id);
+                questionValues.put(COLUMN_CHOICE, (choice));
+                getContentResolver().update(
+                        QuestionContract.QuestionEntry.buildQuestionNo(qno+""),
+                        questionValues,
+                        null,
+                        null);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
             }
         });
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mInterstitialAd.isLoaded()) {
+            mInterstitialAd.show();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mInterstitialAd.setAdListener(null);
+        super.onDestroy();
     }
 }

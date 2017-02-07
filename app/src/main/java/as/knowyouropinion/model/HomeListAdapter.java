@@ -1,18 +1,22 @@
-package as.knowyouropinion;
+package as.knowyouropinion.model;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
-import as.knowyouropinion.model.HomeQuestionData;
+import as.knowyouropinion.R;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**<p>
@@ -38,18 +42,15 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     }
 
     @Override
+    @SuppressLint("SetTextI18n")
     public void onBindViewHolder(ViewHolder holder, int position) {
-//        else{
-//            Glide.with(context).load(profile).into(holder.profile);
-//            holder.name.setText(name);
-//            holder.email.setText(email);
-//        }
         HomeQuestionData data = ListData.get(position);
         holder.quesNo.setText(context.getResources().getString(R.string.label_qno)+data.getQuesNo());
         holder.question.setText(data.getQuestion());
-        String text=data.getPeeps()+context.getResources().getString(R.string.label_ppl_think);
+        String text=data.getPeeps()+context.getResources().getString(R.string.label_ppl_ans);
         holder.peeps.setText(text);
         holder.imageView.setImageResource(R.mipmap.ic_launcher);
+        holder.indicator.setBackgroundColor(ListData.get(position).getColor());
         Glide.with(context).load(data.getImgUrl()).into(holder.imageView);
     }
 
@@ -68,6 +69,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
         CircleImageView imageView;
         AppCompatTextView question, peeps, quesNo;
+        FrameLayout indicator;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -80,7 +82,23 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             question.setTypeface(medium);
             peeps.setTypeface(medium);
             imageView = (CircleImageView) itemView.findViewById(R.id.rowIcon);
+            indicator = (FrameLayout) itemView.findViewById(R.id.indicator);
         }
+    }
+
+    public void notifyQuestionIsVoted(final int position)
+    {   ListData.get(position).setColor(Color.RED);
+        notifyItemChanged(position);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if(ListData.size()>position) {
+                    ListData.get(position).setColor(Color.parseColor("#616161"));
+                    notifyItemChanged(position);
+                }
+            }
+        },1000);
     }
 
     @Override

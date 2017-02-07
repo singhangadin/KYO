@@ -18,6 +18,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
+import com.github.angads25.graphs.BarGraphView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -60,11 +62,13 @@ public class QuizActivity extends AppCompatActivity {
     private long Ia,Ib,Ic,Id, total = 0;
     private boolean answered=false;
     private int qno;
+    private BarGraphView barGraphView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
+        barGraphView = (BarGraphView)findViewById(R.id.barGraph);
         qno = getIntent().getExtras().getInt("qno");
 
         Ques = (AppCompatTextView)findViewById(R.id.question);
@@ -124,24 +128,39 @@ public class QuizActivity extends AppCompatActivity {
                             case R.id.A:
                                 incrementCounter(answer.child("a"),1);
                                 user.child(qno+"").setValue("a");
+                                if(barGraphView!=null) {
+                                    barGraphView.setAnswer(1);
+                                }
                                 break;
 
                             case R.id.B:
                                 incrementCounter(answer.child("b"),2);
                                 user.child(qno+"").setValue("b");
+                                if(barGraphView!=null) {
+                                    barGraphView.setAnswer(2);
+                                }
                                 break;
 
                             case R.id.C:
                                 incrementCounter(answer.child("c"),3);
                                 user.child(qno+"").setValue("c");
+                                if(barGraphView!=null) {
+                                    barGraphView.setAnswer(3);
+                                }
                                 break;
 
                             case R.id.D:
                                 incrementCounter(answer.child("d"),4);
                                 user.child(qno+"").setValue("d");
+                                if(barGraphView!=null) {
+                                    barGraphView.setAnswer(4);
+                                }
                                 break;
                         }
                         markFab.hide();
+                        if(barGraphView!=null)
+                        {   barGraphView.setVisibility(View.VISIBLE);
+                        }
                     }
                 }
             }
@@ -161,8 +180,9 @@ public class QuizActivity extends AppCompatActivity {
         });
 
         optn.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
             @Override
+            @SuppressLint("SetTextI18n")
+            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, String> HM = (HashMap<String, String>) dataSnapshot.getValue();
                 Sa = HM.get("a");
@@ -182,8 +202,9 @@ public class QuizActivity extends AppCompatActivity {
         });
 
         answer.addValueEventListener(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
             @Override
+            @SuppressLint("SetTextI18n")
+            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Long> HM = (HashMap<String, Long>) dataSnapshot.getValue();
                 Ia = HM.get("a");
@@ -194,10 +215,17 @@ public class QuizActivity extends AppCompatActivity {
                 if(total == 0)
                 {   total = 1;
                 }
-                A.setText(Sa+(answered?" "+((Ia*100)/total)+"%":""));
-                B.setText(Sb+(answered?" "+((Ib*100)/total)+"%":""));
-                C.setText(Sc+(answered?" "+((Ic*100)/total)+"%":""));
-                D.setText(Sd+(answered?" "+((Id*100)/total)+"%":""));
+                short percA = (short) ((Ia*100)/total);
+                short percB = (short) ((Ib*100)/total);
+                short percC = (short) ((Ic*100)/total);
+                short percD = (short) ((Id*100)/total);
+                A.setText(Sa+(answered?" "+percA+"%":""));
+                B.setText(Sb+(answered?" "+percB+"%":""));
+                C.setText(Sc+(answered?" "+percC+"%":""));
+                D.setText(Sd+(answered?" "+percD+"%":""));
+                if(barGraphView!=null)
+                {   barGraphView.setPerc(percA, percB, percC, percD);
+                }
             }
 
             @Override

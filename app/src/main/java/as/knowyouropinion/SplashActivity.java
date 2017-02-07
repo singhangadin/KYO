@@ -90,6 +90,7 @@ public class SplashActivity extends AppCompatActivity implements
         Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
     }
 
+    @SuppressWarnings("ConstantConditions")
     private void handleSignInResult(GoogleSignInResult result) {
         Log.e("TAG", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {

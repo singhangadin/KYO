@@ -21,7 +21,7 @@ import as.knowyouropinion.utils.Utility;
  * </p>
  */
 
-public class FbDBInsertThread extends Thread {
+class FbDBInsertThread extends Thread {
     private ContentValues questionValues;
     private int i;
     private String answer;
@@ -29,7 +29,7 @@ public class FbDBInsertThread extends Thread {
     private SQLiteDatabase db;
     private Context context;
 
-    public FbDBInsertThread(Context context, int i, String answer, FirebaseDatabase database) {
+    FbDBInsertThread(Context context, int i, String answer, FirebaseDatabase database) {
         questionValues = new ContentValues();
         QuestionDBHelper dbHelper = new QuestionDBHelper(context);
         db = dbHelper.getWritableDatabase();
@@ -70,6 +70,7 @@ public class FbDBInsertThread extends Thread {
 
         options.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
+            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, String> HM = (HashMap<String, String>) dataSnapshot.getValue();
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS1, HM.get("a"));
@@ -91,6 +92,7 @@ public class FbDBInsertThread extends Thread {
 
         answers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
+            @SuppressWarnings("unchecked")
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Long> HM = (HashMap<String, Long>) dataSnapshot.getValue();
                 questionValues.put(QuestionContract.QuestionEntry.COLUMN_ANS1V, HM.get("a"));

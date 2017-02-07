@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Graphs</string>
+    <string name="label_zero_perc">0%</string>
+    <string name="label_two_five_perc">25%</string>
+    <string name="label_fifty_perc">50%</string>
+    <string name="label_seven_five_perc">75%</string>
+    <string name="label_hundred_perc">100%</string>
 </resources>

@@ -62,6 +62,7 @@
         </LinearLayout>
 
         <FrameLayout
+            android:id="@+id/indicator"
             android:layout_width="20dp"
             android:layout_gravity="center_vertical"
             android:layout_height="match_parent"

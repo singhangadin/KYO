@@ -34,12 +34,13 @@ public class KYOSyncAdapter extends AbstractThreadedSyncAdapter {
     private static final int SYNC_INTERVAL = 60 * 10;
     private static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
 
-    public KYOSyncAdapter(Context context, boolean autoInitialize) {
+    KYOSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
         this.context=context;
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void onPerformSync(final Account account, Bundle extras, final String authority, ContentProviderClient provider, SyncResult syncResult) {
         Log.e("SYNC","Sync Performed");
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

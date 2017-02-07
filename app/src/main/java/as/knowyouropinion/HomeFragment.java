@@ -25,6 +25,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.TreeMap;
 
+import as.knowyouropinion.model.HomeListAdapter;
 import as.knowyouropinion.model.HomeQuestionData;
 import as.knowyouropinion.utils.OnRecyclerClickListener;
 import as.knowyouropinion.utils.RecyclerTouchHelper;
@@ -80,8 +81,10 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                 }
                 if(questionMapper.size()==0&&doneKeys.size()!=0)
                 {   homeList.setVisibility(View.INVISIBLE);
-                    status.setText(getString(R.string.label_home_empty));
-                    status.setVisibility(View.VISIBLE);
+                    if(isAdded()) {
+                        status.setText(getString(R.string.label_home_comp));
+                        status.setVisibility(View.VISIBLE);
+                    }
                 }
             }
 
@@ -124,7 +127,9 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                 }
                 if(questionMapper.size()==0&&doneKeys.size()!=0)
                 {   homeList.setVisibility(View.INVISIBLE);
-                    status.setText(getString(R.string.label_home_empty));
+                    if(isAdded()) {
+                        status.setText(getString(R.string.label_home_comp));
+                    }
                     status.setVisibility(View.VISIBLE);
                 }
             }
@@ -150,13 +155,15 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-//                Toast.makeText(context,"Loading Cancelled",Toast.LENGTH_SHORT).show();
-                status.setText(getString(R.string.label_home_dc));
+                if(isAdded()) {
+                    status.setText(getString(R.string.label_home_dc));
+                }
             }
         });
 
         answers.addChildEventListener(new ChildEventListener() {
             @Override
+            @SuppressWarnings("unchecked")
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 int quesNo = Integer.parseInt(dataSnapshot.getKey());
                 HashMap<String, Long> count = (HashMap<String, Long>) dataSnapshot.getValue();
@@ -179,6 +186,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
             }
 
             @Override
+            @SuppressWarnings("unchecked")
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
                 int quesNo = Integer.parseInt(dataSnapshot.getKey());
                 HashMap<String, Long> count = (HashMap<String, Long>) dataSnapshot.getValue();
@@ -189,7 +197,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                 if(questionMapper.containsKey(quesNo)&&!doneKeys.contains(quesNo)&&questionMapper.get(quesNo)<homeQuestionData.size())
                 {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(quesNo));
                     data.setPeeps(total);
-                    adapter.notifyItemChanged(questionMapper.get(quesNo));
+                    adapter.notifyQuestionIsVoted(questionMapper.get(quesNo));
                 }
             }
 

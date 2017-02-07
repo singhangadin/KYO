@@ -73,23 +73,30 @@ public class KyoWidgetRemoteViewService extends RemoteViewsService {
                 RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget_list_item);
                 views.setTextViewText(R.id.questionNo,getResources().getString(R.string.label_qno)+ data.getString(INDEX_QUES_NO));
                 views.setTextViewText(R.id.question, data.getString(INDEX_QUES));
-                String opt = data.getString(INDEX_CHOICE);
-                String match="0";
+
+                int opt = data.getInt(INDEX_CHOICE);
+                int A = data.getInt(INDEX_ANS1V);
+                int B = data.getInt(INDEX_ANS2V);
+                int C = data.getInt(INDEX_ANS3V);
+                int D = data.getInt(INDEX_ANS4V);
+                int match = 0;
                 switch(opt)
-                {   case "1":   match = data.getString(INDEX_ANS1V);
+                {   case 1:   match = A;
                     break;
 
-                    case "2":   match = data.getString(INDEX_ANS2V);
+                    case 2:   match = B;
                         break;
 
-                    case "3":   match = data.getString(INDEX_ANS3V);
+                    case 3:   match = C;
                         break;
 
-                    case "4":   match = data.getString(INDEX_ANS4V);
+                    case 4:   match = D;
                         break;
 
                 }
-                views.setTextViewText(R.id.peeps, match + getResources().getString(R.string.label_ppl_think));
+                int total = A + B + C + D;
+                String text = ((match*100)/total)+getString(R.string.label_ppl_think);
+                views.setTextViewText(R.id.peeps, text);
 
                 Intent intent = new Intent(getApplicationContext(), ResultActivity.class);
                 int qno = data.getInt(INDEX_QUES_NO);

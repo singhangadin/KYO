@@ -1,5 +1,6 @@
 package as.knowyouropinion;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,7 +13,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -42,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements
         OnRecyclerClickListener,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private String TITLES[];
     private int ICONS[] = { R.drawable.ic_action_home,
                             R.drawable.ic_action_answered,
                             R.drawable.ic_action_log_out};
@@ -54,14 +56,16 @@ public class MainActivity extends AppCompatActivity implements
     private boolean doubleBackToExitPressedOnce = false;
     private RecyclerView.Adapter mAdapter;
     private GoogleApiClient mGoogleApiClient;
+    private Toolbar toolbar;
+    private String[] TITLES;
 
     @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        TITLES = new String[]{  getResources().getString(R.string.label_home),
-                                getResources().getString(R.string.label_history),
-                                getResources().getString(R.string.label_logout)};
+        TITLES = new String[]{getResources().getString(R.string.label_home),
+                getResources().getString(R.string.label_history),
+                getResources().getString(R.string.label_logout)};
 
         setContentView(R.layout.activity_main);
 
@@ -81,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements
         String NAME=preferences.getString("NAME","Name");
         String EMAIL=preferences.getString("EMAIL","Email");
         String PROFILE=preferences.getString("PHOTO","null");
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setTitleTextColor(Color.WHITE);
         mDrawerLayout = (FrameLayout) findViewById(R.id.drawer_layout);
@@ -163,27 +167,46 @@ public class MainActivity extends AppCompatActivity implements
         Fragment frag=null;
         switch (i)
         {   case 0: frag=new HomeFragment();
+                    toolbar.setTitle(TITLES[i]);
                     break;
 
             case 1: frag=new HistoryFragment();
+                    toolbar.setTitle(TITLES[i]);
                     break;
 
-            case 2: FirebaseAuth.getInstance().signOut();
-                    if(mGoogleApiClient.isConnected())
-                    Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+            case 2: AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                    builder.setTitle("Log Out");
+                    builder.setMessage("Are you sure you want to Logout?");
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
-                        public void onResult(@NonNull Status status) {
-                            if(status.isSuccess())
-                            {   getContentResolver().delete(
-                                    QuestionContract.QuestionEntry.CONTENT_URI,
-                                    null,
-                                    null
-                                );
-                                startActivity(new Intent(MainActivity.this, SignInActivity.class));
-                                finish();
-                            }
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseAuth.getInstance().signOut();
+                            if(mGoogleApiClient.isConnected())
+                                Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
+                                    @Override
+                                    public void onResult(@NonNull Status status) {
+                                        if(status.isSuccess())
+                                        {   getContentResolver().delete(
+                                                QuestionContract.QuestionEntry.CONTENT_URI,
+                                                null,
+                                                null
+                                            );
+                                            startActivity(new Intent(MainActivity.this, SignInActivity.class));
+                                            finish();
+                                        }
+                                    }
+                                });
                         }
                     });
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    AppCompatDialog dialog = builder.create();
+                    dialog.setCancelable(false);
+                    dialog.show();
                     break;
         }
         if(frag!=null)
@@ -219,5 +242,10 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

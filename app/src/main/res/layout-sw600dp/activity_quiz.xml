@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,7 +9,8 @@
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="?actionBarSize">
+        android:paddingBottom="?actionBarSize"
+        app:elevation="0dp">
 
         <include
             android:id="@+id/toolbar"
@@ -37,6 +39,7 @@
                 android:layout_margin="@dimen/activity_horizontal_margin">
 
                 <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/question"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
@@ -44,10 +47,12 @@
                     android:textColor="#000000"/>
 
                 <RadioGroup
+                    android:id="@+id/options"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
 
                     <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/A"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/option_text_size"
@@ -56,6 +61,7 @@
                         android:layout_marginTop="@dimen/radio_margin"/>
 
                     <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/B"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/option_text_size"
@@ -64,6 +70,7 @@
                         android:layout_marginTop="@dimen/radio_margin"/>
 
                     <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/C"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/option_text_size"
@@ -72,6 +79,7 @@
                         android:layout_marginTop="@dimen/radio_margin"/>
 
                     <android.support.v7.widget.AppCompatRadioButton
+                        android:id="@+id/D"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/option_text_size"
@@ -87,6 +95,7 @@
     </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/markFab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

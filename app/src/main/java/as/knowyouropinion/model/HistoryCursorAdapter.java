@@ -40,23 +40,28 @@ public class HistoryCursorAdapter extends CursorRecyclerViewAdapter<HistoryCurso
                 cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QNO));
         holder.quesNo.setText(text);
         holder.question.setText(cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_QUES)));
-        String opt = cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_CHOICE));
-        String match="0";
+        int opt = cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_CHOICE));
+        int A = cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1V));
+        int B = cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2V));
+        int C = cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3V));
+        int D = cursor.getInt(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4V));
+        int match = 0;
         switch(opt)
-        {   case "1":   match = cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS1V));
+        {   case 1:   match = A;
                         break;
 
-            case "2":   match = cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS2V));
+            case 2:   match = B;
                         break;
 
-            case "3":   match = cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS3V));
+            case 3:   match = C;
                         break;
 
-            case "4":   match = cursor.getString(cursor.getColumnIndex(QuestionContract.QuestionEntry.COLUMN_ANS4V));
+            case 4:   match = D;
                         break;
 
         }
-        text = match+context.getString(R.string.label_ppl_think);
+        int total = A + B + C + D;
+        text = ((match*100)/total)+context.getString(R.string.label_ppl_think);
         holder.peeps.setText(text);
     }
 

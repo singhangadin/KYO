@@ -99,7 +99,7 @@ public class HistoryFragment extends Fragment implements
         mCursorAdapter.swapCursor(data);
         savedCursor = data;
         if(data.getCount()==0)
-        {   status.setText(getString(R.string.label_home_empty));
+        {   status.setText(getString(R.string.label_hist_empty));
         }
         else
         {   recyclerView.setVisibility(View.VISIBLE);

@@ -1,7 +1,9 @@
 package as.knowyouropinion.model;
 
+import android.graphics.Color;
+
 /**<p>
- * Created by localhost on 25/1/17.
+ * Created by Angad on 25/1/17.
  * </p>
  */
 
@@ -9,6 +11,11 @@ public class HomeQuestionData
 {   private String question, imgUrl;
     private int quesNo;
     private long peeps;
+    private int color;
+
+    public HomeQuestionData() {
+        this.color = Color.parseColor("#616161");
+    }
 
     public String getQuestion() {
         return question;
@@ -40,5 +47,13 @@ public class HomeQuestionData
 
     public void setImgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
+    }
+
+    public void setColor(int color) {
+        this.color = color;
+    }
+
+    public int getColor() {
+        return color;
     }
 }

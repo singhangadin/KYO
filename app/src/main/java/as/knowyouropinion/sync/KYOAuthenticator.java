@@ -7,9 +7,9 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.os.Bundle;
 
-public class KYOAuthenticator extends AbstractAccountAuthenticator {
+class KYOAuthenticator extends AbstractAccountAuthenticator {
 
-    public KYOAuthenticator(Context context) {
+    KYOAuthenticator(Context context) {
         super(context);
     }
 
