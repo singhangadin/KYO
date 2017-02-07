@@ -7,11 +7,12 @@
     <ImageView
         android:text="@string/app_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/large_icon_size"
         android:src="@drawable/ic_launcher_web"
         android:gravity="center"
+        android:scaleType="centerInside"
         android:id="@+id/textView2"
-        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:layout_margin="@dimen/radio_margin"
         android:contentDescription="@string/app_name" />
 
     <android.support.v4.widget.Space
@@ -31,5 +32,5 @@
         android:layout_height="wrap_content"
         android:id="@+id/textView3"
         android:gravity="center"
-        android:layout_margin="@dimen/activity_vertical_margin"/>
+        android:layout_margin="@dimen/radio_margin"/>
 </LinearLayout>

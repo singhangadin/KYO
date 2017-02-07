@@ -19,7 +19,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.github.angads25.graphs.BarGraphView;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -63,6 +62,7 @@ public class QuizActivity extends AppCompatActivity {
     private boolean answered=false;
     private int qno;
     private BarGraphView barGraphView;
+    private int choice=0;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -126,7 +126,8 @@ public class QuizActivity extends AppCompatActivity {
                         option.setEnabled(true);
                         switch (id) {
                             case R.id.A:
-                                incrementCounter(answer.child("a"),1);
+                                choice = 1;
+                                incrementCounter(answer.child("a"),choice);
                                 user.child(qno+"").setValue("a");
                                 if(barGraphView!=null) {
                                     barGraphView.setAnswer(1);
@@ -134,7 +135,8 @@ public class QuizActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.B:
-                                incrementCounter(answer.child("b"),2);
+                                choice = 2;
+                                incrementCounter(answer.child("b"),choice);
                                 user.child(qno+"").setValue("b");
                                 if(barGraphView!=null) {
                                     barGraphView.setAnswer(2);
@@ -142,7 +144,8 @@ public class QuizActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.C:
-                                incrementCounter(answer.child("c"),3);
+                                choice = 3;
+                                incrementCounter(answer.child("c"),choice);
                                 user.child(qno+"").setValue("c");
                                 if(barGraphView!=null) {
                                     barGraphView.setAnswer(3);
@@ -150,7 +153,8 @@ public class QuizActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.D:
-                                incrementCounter(answer.child("d"),4);
+                                choice = 4;
+                                incrementCounter(answer.child("d"),choice);
                                 user.child(qno+"").setValue("d");
                                 if(barGraphView!=null) {
                                     barGraphView.setAnswer(4);
@@ -230,7 +234,6 @@ public class QuizActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }
@@ -294,5 +297,61 @@ public class QuizActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        if(answered) {
+            outState.putBoolean("answered", true);
+            outState.putInt("choice", choice);
+            outState.putLong("Ia", Ia);
+            outState.putLong("Ib", Ib);
+            outState.putLong("Ic", Ic);
+            outState.putLong("Id", Id);
+            outState.putString("Sa", Sa);
+            outState.putString("Sb", Sb);
+            outState.putString("Sc", Sc);
+            outState.putString("Sd", Sd);
+        }
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        Log.e("RECREATE","Bool:"+(savedInstanceState!=null));
+        if(savedInstanceState!=null)
+        {   answered = savedInstanceState.getBoolean("answered");
+            Log.e("RECREATE","Ans:"+answered);
+            if(answered)
+            {   choice = savedInstanceState.getInt("choice");
+                markFab.hide();
+                Ia = savedInstanceState.getLong("Ia");
+                Ib = savedInstanceState.getLong("Ib");
+                Ic = savedInstanceState.getLong("Ic");
+                Id = savedInstanceState.getLong("Id");
+                Sa = savedInstanceState.getString("Sa");
+                Sb = savedInstanceState.getString("Sb");
+                Sc = savedInstanceState.getString("Sc");
+                Sd = savedInstanceState.getString("Sd");
+                total = Ia + Ib + Ic + Id;
+                if(total == 0)
+                {   total = 1;
+                }
+                short percA = (short) ((Ia*100)/total);
+                short percB = (short) ((Ib*100)/total);
+                short percC = (short) ((Ic*100)/total);
+                short percD = (short) ((Id*100)/total);
+                A.setText(Sa+" "+percA+getString(R.string.symbol_percentage));
+                B.setText(Sb+" "+percB+getString(R.string.symbol_percentage));
+                C.setText(Sc+" "+percC+getString(R.string.symbol_percentage));
+                D.setText(Sd+" "+percD+getString(R.string.symbol_percentage));
+                if(barGraphView!=null)
+                {   barGraphView.setVisibility(View.VISIBLE);
+                    barGraphView.setAnswer(choice);
+                    barGraphView.setPerc(percA, percB, percC, percD);
+                }
+            }
+        }
     }
 }

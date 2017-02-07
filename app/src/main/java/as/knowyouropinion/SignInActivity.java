@@ -145,8 +145,6 @@ public class SignInActivity extends AppCompatActivity implements
                 }
             });
             T1.start();
-            startActivity(new Intent(SignInActivity.this,MainActivity.class));
-            finish();
         }
         else {
             Log.e("TAG", "Sign In Failed");
@@ -164,6 +162,10 @@ public class SignInActivity extends AppCompatActivity implements
                 if (!task.isSuccessful()) {
                     Log.e("TAG", "Credential:", task.getException());
                     Toast.makeText(getBaseContext(), R.string.err_server_conn, Toast.LENGTH_SHORT).show();
+                }
+                else
+                {   startActivity(new Intent(SignInActivity.this,MainActivity.class));
+                    finish();
                 }
             }
         });

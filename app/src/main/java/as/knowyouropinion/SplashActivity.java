@@ -125,8 +125,12 @@ public class SplashActivity extends AppCompatActivity implements
                     public void onCancelled(DatabaseError databaseError) {
                     }
                 });
+                firebaseAuthWithGoogle(acct);
             }
-            firebaseAuthWithGoogle(acct);
+            else
+            {   startActivity(new Intent(SplashActivity.this, SignInActivity.class));
+                finish();
+            }
         }
         else {
             Log.e("TAG", "Sign In Failed");

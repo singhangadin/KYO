@@ -29,13 +29,9 @@
 
         <activity android:name=".SignInActivity"/>
 
-        <activity
-            android:name=".QuizActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".QuizActivity" />
 
-        <activity
-            android:name=".ResultActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name=".ResultActivity" />
 
         <service android:name=".sync.KYOAuthenticatorService">
             <intent-filter>

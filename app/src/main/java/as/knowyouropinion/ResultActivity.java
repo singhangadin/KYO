@@ -227,6 +227,7 @@ public class ResultActivity extends AppCompatActivity {
                         questionValues,
                         null,
                         null);
+                Utility.updateWidget(ResultActivity.this);
             }
 
             @Override

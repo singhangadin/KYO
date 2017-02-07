@@ -17,4 +17,5 @@
     <dimen name="list_item_margin">16dp</dimen>
     <dimen name="main_ques_text_size">16sp</dimen>
     <dimen name="main_ans_text_size">12sp</dimen>
+    <dimen name="large_icon_size">198dp</dimen>
 </resources>

@@ -2,4 +2,5 @@
 <resources>
     <dimen name="quesion_text_size">32sp</dimen>
     <dimen name="option_text_size">24sp</dimen>
+    <dimen name="large_icon_size">256dp</dimen>
 </resources>

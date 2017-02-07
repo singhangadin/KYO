@@ -1,0 +1,109 @@
+{
+  "Answers" : [ null, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  }, {
+    "a" : 0,
+    "b" : 0,
+    "c" : 0,
+    "d" : 0
+  } ],
+  "Images" : [ null, "https://raw.githubusercontent.com/Angads25/KYO/master/images/pizza.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/hogwards.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/pixar.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/drinks.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/marvel.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/tv.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/phil.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/fruits.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/fem.jpg", "https://raw.githubusercontent.com/Angads25/KYO/master/images/cereal.jpg" ],
+  "Options" : [ null, {
+    "a" : "Domino's Pizza",
+    "b" : "Pizza Hut",
+    "c" : "Papa John's Pizza",
+    "d" : "Kotipizza"
+  }, {
+    "a" : "Gryffindor",
+    "b" : "Slytherin",
+    "c" : "Hufflepuff",
+    "d" : "Ravenclaw"
+  }, {
+    "a" : "Toy Story",
+    "b" : "Monsters, Inc.",
+    "c" : "Cars",
+    "d" : "A Bugs Life"
+  }, {
+    "a" : "Coke",
+    "b" : "Pepsi",
+    "c" : "Mountain Dew",
+    "d" : "Limca"
+  }, {
+    "a" : "Captain America",
+    "b" : "Iron Man",
+    "c" : "Thor",
+    "d" : "Hulk"
+  }, {
+    "a" : "Sherlock Holmes",
+    "b" : "Game of Thrones",
+    "c" : "Silicon Valley",
+    "d" : "Neither of These"
+  }, {
+    "a" : "Yes, It does!",
+    "b" : "No, I doesn't!",
+    "c" : "Sorry, I can't tell!",
+    "d" : "Who Cares!"
+  }, {
+    "a" : "Apple",
+    "b" : "Banana",
+    "c" : "Mango",
+    "d" : "Orange"
+  }, {
+    "a" : "Yes, It is!",
+    "b" : "No, It isn't!",
+    "c" : "Maybe Yes, Maybe No",
+    "d" : "Doesn't Matter"
+  }, {
+    "a" : "Name Brand",
+    "b" : "Generic",
+    "c" : "I don't care",
+    "d" : "I don't eat cereal"
+  } ],
+  "Questions" : [ null, "Which Place would you Visit to eat Pizzas?", "Which Hogwards House has to go?", "Which Pixar Movie must go?", "Which Cold Drink do you prefer?", "Which Marvel Character must go?", "Which TV show you prefer to see?", "Does it Matter What People Believe in?", "Which Fruit is more Favourable?", "Is Feminism more about Female Dominance?", "What way do you prefer for cereal?" ],
+  "Users" : {
+    "UserID" : [ null, "a" ]
+  }
+}
