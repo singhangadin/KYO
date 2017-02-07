@@ -3,6 +3,9 @@ A Real-Time voting Application that allows you to cast your opinion and see what
 
 ![Screenshot 1](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss10.png)
 
+## Blueprint
+All this started from [here](https://github.com/Angads25/Capstone-Project/blob/master/Capstone_Stage1.pdf).
+
 ## About the Application
 Can be useful for some of these:
 * Tells what other think about things.
@@ -30,7 +33,7 @@ Can be useful for some of these:
 
 ## App Walkthrough
 
-Link: https://www.youtube.com/watch?v=JfP4N8qEafU
+[Click here](https://www.youtube.com/watch?v=JfP4N8qEafU) to see App in action.
 
 ## Screenshots
 
