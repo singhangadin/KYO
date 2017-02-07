@@ -49,7 +49,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         holder.question.setText(data.getQuestion());
         String text=data.getPeeps()+context.getResources().getString(R.string.label_ppl_ans);
         holder.peeps.setText(text);
-        holder.imageView.setImageResource(R.mipmap.ic_launcher);
         holder.indicator.setBackgroundColor(ListData.get(position).getColor());
         Glide.with(context).load(data.getImgUrl()).into(holder.imageView);
     }

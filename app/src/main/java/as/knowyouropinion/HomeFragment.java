@@ -61,6 +61,7 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference questions = database.getReference("Questions");
         DatabaseReference answers = database.getReference("Answers");
+        DatabaseReference images = database.getReference("Images");
         DatabaseReference user = database.getReference("Users").child(userID);
 
         user.addChildEventListener(new ChildEventListener() {
@@ -199,6 +200,48 @@ public class HomeFragment extends Fragment implements OnRecyclerClickListener {
                     data.setPeeps(total);
                     adapter.notifyQuestionIsVoted(questionMapper.get(quesNo));
                 }
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        images.addChildEventListener(new ChildEventListener() {
+            @Override
+            @SuppressWarnings("unchecked")
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                ArrayList<String> image = (ArrayList<String>) dataSnapshot.getValue();
+                for(int i=0;i<image.size();i++)
+                {
+                    if(questionMapper.containsKey(i))
+                    {   HomeQuestionData data = homeQuestionData.get(questionMapper.get(i));
+                        data.setImgUrl(image.get(i));
+                        adapter.notifyItemChanged(questionMapper.get(i));
+                    }
+                    else if(!doneKeys.contains(i))
+                    {   HomeQuestionData data = new HomeQuestionData();
+                        data.setQuesNo(i);
+                        data.setImgUrl(image.get(i));
+                        addElementToList(data);
+                        adapter.notifyItemChanged(questionMapper.get(i));
+                    }
+                }
+            }
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
             }
 
             @Override
