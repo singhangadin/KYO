@@ -1,6 +1,8 @@
 # Know Your Opinion
 A Real-Time voting Application that allows you to cast your opinion and see what other think about it.
 
+![Screenshot 1](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss10.png)
+
 ## About the Application
 Can be useful for some of these:
 * Tells what other think about things.
@@ -24,7 +26,7 @@ Can be useful for some of these:
 
 ## Application File (.apk)
 
-[Download file](https://github.com/Angads25/KYO/tree/master/app/kyo.apk)
+[Download file](https://raw.githubusercontent.com/Angads25/KYO/master/app/app-release.apk)
 
 ## App Walkthrough
 
@@ -32,3 +34,20 @@ Link: https://www.youtube.com/watch?v=JfP4N8qEafU
 
 ## Screenshots
 
+![Screenshot 2](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss1.png)
+
+![Screenshot 3](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss3.png)
+
+![Screenshot 4](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss4.png)
+
+![Screenshot 5](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss5.png)
+
+![Screenshot 6](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss6.png)
+
+![Screenshot 7](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss7.png)
+
+![Screenshot 8](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss8.png)
+
+![Screenshot 9](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss9.png)
+
+![Screenshot 10](https://raw.githubusercontent.com/Angads25/KYO/master/screenshots/ss11.png)
